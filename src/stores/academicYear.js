@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { useClassStore } from "./class";
-import axios from "axios";
+import axios from "../axiosConfiguration";
 
 export const useAcademicYearStore = defineStore( 'academicYear', {
     state: () => ( {
@@ -25,7 +25,7 @@ export const useAcademicYearStore = defineStore( 'academicYear', {
         },
 
         getAcademicYears() {
-            axios.get( 'https://api.brickboxrnd.my.id/api' )
+            axios.get( '/tahun-pelajaran' )
                 .then( response => this.academicYears = response.data.data )
                 .catch( error => console.log( error ) );
         },
@@ -41,7 +41,7 @@ export const useAcademicYearStore = defineStore( 'academicYear', {
         },
 
         store() {
-            axios.post( 'https://api.brickboxrnd.my.id/api/tahun-pelajaran', this.academicYear )
+            axios.post( '/tahun-pelajaran', this.academicYear )
                 .then( response => {
                     this.academicYear = {
                         year: "",
