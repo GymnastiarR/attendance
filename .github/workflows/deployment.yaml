@@ -22,11 +22,7 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: 22
           script: |
-<<<<<<< HEAD
             cd /var/www/
-=======
-            cd ~/var/www/
->>>>>>> e4056fb68358d873ced91fa0910db248d11e379d
             git pull origin master
             git status
             export NVM_DIR=~/.nvm
