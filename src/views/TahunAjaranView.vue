@@ -12,6 +12,7 @@ const { academicYears, academicYear } = storeToRefs( academicYearStore );
 onBeforeMount( () => {
     academicYearStore.getAcademicYears();
 } );
+
 </script>
 
 <template>

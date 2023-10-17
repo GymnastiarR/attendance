@@ -20,6 +20,7 @@ export const useClassStore = defineStore( 'class', {
     } ),
     getters: {
         getClassesName() {
+            if ( this.classes.length === 0 ) return;
             return this.classes.map( clss => {
                 return { id: clss.id, name: `${clss.Year.name} ${clss.Major.name} ${clss.name}` };
             } );

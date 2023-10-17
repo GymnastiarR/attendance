@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axiosConfiguration";
 import { defineStore } from "pinia";
 
 export const useYearStore = defineStore( 'year', {
