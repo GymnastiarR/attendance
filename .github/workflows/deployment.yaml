@@ -1,0 +1,31 @@
+name: CD
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    environment: staging
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd ~/apps/presence/attendance
+            git pull origin master
+            git status
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh                
+            npm install
+            npm run build
