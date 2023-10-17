@@ -25,7 +25,7 @@ export const useAcademicYearStore = defineStore( 'academicYear', {
         },
 
         getAcademicYears() {
-            axios.get( '/tahun-pelajaran' )
+            axios.get( 'https://api.brickboxrnd.my.id/api' )
                 .then( response => this.academicYears = response.data.data )
                 .catch( error => console.log( error ) );
         },

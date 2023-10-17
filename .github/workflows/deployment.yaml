@@ -24,8 +24,6 @@ jobs:
           script: |
             cd /var/www/attendance
             sudo git pull origin master
-            git status
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh                
+            git status             
             sudo npm install
             sudo npm run build
