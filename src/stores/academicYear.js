@@ -41,7 +41,7 @@ export const useAcademicYearStore = defineStore( 'academicYear', {
         },
 
         store() {
-            axios.post( '/tahun-pelajaran', this.academicYear )
+            axios.post( 'https://api.brickboxrnd.my.id/api/tahun-pelajaran', this.academicYear )
                 .then( response => {
                     this.academicYear = {
                         year: "",
