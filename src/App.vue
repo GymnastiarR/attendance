@@ -20,29 +20,6 @@ onBeforeMount( () => {
 const { currentAcademicYear } = storeToRefs( academicYearStore );
 const { error } = storeToRefs( errorStore );
 const { isShow } = storeToRefs( menuStore );
-
-// export default {
-//   components: {
-//     IconMenu,
-//     RouterLink,
-//     RouterView,
-//     ErrorAlert
-//   },
-//   data() {
-//     return {
-//       store
-//     };
-//   },
-//   beforeMount() {
-//     axios.get( '/tahun-pelajaran?active=true' )
-//       .then( response => {
-//         this.store.academicYear = response.data.data[ 0 ];
-//       } )
-//       .catch( error => {
-//         console.log( error );
-//       } );
-//   }
-// };
 </script>
 
 <template>
@@ -54,7 +31,11 @@ const { isShow } = storeToRefs( menuStore );
     <nav class="h-20 flex items-center">
       <!-- <RouterLink to="/" class="px-4 text-white">Home</RouterLink>
       <RouterLink to="/about" class="px-4 text-white">About</RouterLink> -->
-      <p class="text-white">Tahun Ajaran {{ currentAcademicYear.year }} Semester {{ currentAcademicYear.semester }}</p>
+      <p v-if="currentAcademicYear" class="text-white">Tahun Ajaran {{ currentAcademicYear.year }} Semester {{
+        currentAcademicYear.semester }}</p>
+      <RouterLink to="/tahun-pelajaran">
+        Buat Tahun Ajaran
+      </RouterLink>
     </nav>
   </header>
   <ErrorAlert v-if="error.status" />
