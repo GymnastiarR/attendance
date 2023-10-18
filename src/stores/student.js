@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import axios from "../axiosConfiguration";
 import { useErrorStore } from "./error";
 import { useClassStore } from "./class";
+import { useLoadingStore } from "./loading";
 
 export const useStudentStore = defineStore( 'student', {
     state: () => ( {
@@ -18,6 +19,7 @@ export const useStudentStore = defineStore( 'student', {
 
     actions: {
         storeStudent() {
+            useLoadingStore().loading = true;
             axios.post( '/siswa', this.student )
                 .then( response => {
                     this.getUser();
@@ -29,6 +31,9 @@ export const useStudentStore = defineStore( 'student', {
                 } )
                 .catch( error => {
                     useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
                 } );
         },
 

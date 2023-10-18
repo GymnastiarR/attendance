@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import IconMenu from './components/icons/IconMenu.vue';
+import LoadingAnimation from './components/LoadingAnimation.vue';
 import { store } from './store.js';
 import ErrorAlert from './components/ErrorAlert.vue';
 import { useAcademicYearStore } from './stores/academicYear';
@@ -33,11 +34,12 @@ const { isShow } = storeToRefs( menuStore );
       <RouterLink to="/about" class="px-4 text-white">About</RouterLink> -->
       <p v-if="currentAcademicYear" class="text-white">Tahun Ajaran {{ currentAcademicYear.year }} Semester {{
         currentAcademicYear.semester }}</p>
-      <RouterLink to="/tahun-pelajaran">
+      <RouterLink v-else to="/tahun-pelajaran" class="text-white">
         Buat Tahun Ajaran
       </RouterLink>
     </nav>
   </header>
-  <ErrorAlert v-if="error.status" />
+  <LoadingAnimation />
+  <ErrorAlert />
   <RouterView />
 </template>

@@ -27,7 +27,6 @@ onBeforeMount( () => {
                 <form action="" class="w-full md:w-1/2 lg:w-1/3">
                     <div class="flex flex-col mb-3">
                         <label for="tahun-ajaran">Tahun Ajaran</label>
-                        <span class="text-red-500 text-xs my-1">{{ error }}</span>
                         <input id="tahun-ajaran" class="py-1 px-2 rounded-md border-2" v-model="academicYear.year"
                             type="text" placeholder="2021/2022">
                     </div>

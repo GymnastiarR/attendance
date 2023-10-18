@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { useClassStore } from "./class";
 import { useErrorStore } from "./error";
+import { useLoadingStore } from "./loading";
 import axios from "../axiosConfiguration.js";
 
 export const useAcademicYearStore = defineStore( 'academicYear', {
@@ -44,6 +45,7 @@ export const useAcademicYearStore = defineStore( 'academicYear', {
         },
 
         store() {
+            useLoadingStore().loading = true;
             axios.post( '/tahun-pelajaran', this.academicYear )
                 .then( response => {
                     this.academicYear = {
@@ -55,6 +57,9 @@ export const useAcademicYearStore = defineStore( 'academicYear', {
                 } )
                 .catch( error => {
                     useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
                 } );
         }
     }

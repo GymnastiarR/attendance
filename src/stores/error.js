@@ -8,12 +8,6 @@ export const useErrorStore = defineStore( 'error', {
         }
     } ),
 
-    getters: {
-        getTest() {
-
-        }
-    },
-
     actions: {
         setError( error ) {
             if ( error.code == "ERR_BAD_REQUEST" ) {
