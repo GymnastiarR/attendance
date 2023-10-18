@@ -57,6 +57,6 @@ const { isShow } = storeToRefs( menuStore );
       <p class="text-white">Tahun Ajaran {{ currentAcademicYear.year }} Semester {{ currentAcademicYear.semester }}</p>
     </nav>
   </header>
-  <ErrorAlert v-if="error" />
+  <ErrorAlert v-if="error.status" />
   <RouterView />
 </template>

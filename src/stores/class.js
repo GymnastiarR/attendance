@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import axios from "../axiosConfiguration";
 import { useStudentStore } from "./student";
+import { useErrorStore } from "./error";
 
 export const useClassStore = defineStore( 'class', {
 
@@ -20,7 +21,7 @@ export const useClassStore = defineStore( 'class', {
     } ),
     getters: {
         getClassesName() {
-            if ( this.classes.length === 0 ) return;
+            if ( this.classes.length === 0 ) return [];
             return this.classes.map( clss => {
                 return { id: clss.id, name: `${clss.Year.name} ${clss.Major.name} ${clss.name}` };
             } );
@@ -34,7 +35,7 @@ export const useClassStore = defineStore( 'class', {
                     this.classes = response.data.data;
                 } )
                 .catch( err => {
-                    console.log( err );
+                    useErrorStore().setError( err );
                 } );
         },
 
@@ -63,7 +64,7 @@ export const useClassStore = defineStore( 'class', {
                     useStudentStore().getUser( '?tanpa_kelas=true' );
                 } )
                 .catch( error => {
-                    console.log( error );
+                    useErrorStore().setError( error );
                 } );
         },
 
@@ -82,8 +83,12 @@ export const useClassStore = defineStore( 'class', {
                     this.getClass( classId );
                 } )
                 .catch( error => {
-                    console.log( error );
+                    useErrorStore().setError( error );
                 } );
+        },
+
+        solveClassName( clss ) {
+            return `${clss.Year.name} ${clss.Major.name} ${clss.name}`;
         }
     }
 } );

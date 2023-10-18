@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import axios from "../axiosConfiguration";
 
 export const useAttendanceUnitStore = defineStore( 'attendanceUnit', {
     state: () => ( {
@@ -29,8 +29,8 @@ export const useAttendanceUnitStore = defineStore( 'attendanceUnit', {
                 .catch( error => console.log( error ) );
         },
 
-        setClass(attendanceUnitId){
-            axios.put(`/unit-presensi/${this.attendanceUnitId}/kelas`)
+        setClass( attendanceUnitId ) {
+            axios.put( `/unit-presensi/${this.attendanceUnitId}/kelas` );
         }
     }
 } );

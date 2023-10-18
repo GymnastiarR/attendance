@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import axios from "../axiosConfiguration";
+import { useErrorStore } from "./error";
 
 export const useAttendanceStore = defineStore( 'attendance', {
     state: () => ( {
@@ -24,7 +25,9 @@ export const useAttendanceStore = defineStore( 'attendance', {
                 .then( response => {
                     this.getAttendances();
                 } )
-                .catch( error => console.log( error ) );
+                .catch( error => {
+                    useErrorStore().setError( error );
+                } );
         },
 
         getAttendances() {

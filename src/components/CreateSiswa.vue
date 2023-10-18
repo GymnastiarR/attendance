@@ -38,20 +38,16 @@ onUnmounted( () => {
             <form action="" class="w-full lg:w-1/2">
                 <div class="flex flex-col mb-3">
                     <label for="name" class="text-sm">Nama Siswa</label>
-                    <span v-if="errorStore.get('name')" class="text-xs my-1 text-red-500">
-                        {{ errorStore.get('name') }}</span>
                     <input v-model="student.name" type="text" name="name"
                         class="rounded-md border-2 px-2 py-1 text-sm focus:outline-blue-500">
                 </div>
                 <div class="flex flex-col mb-3">
                     <label for="nis" class="text-sm">NIS Siswa</label>
-                    <span class="text-xs my-1 text-red-500">{{ errorStore.get('nis') }}</span>
                     <input v-model="student.nis" type="text" name="nis" id="nis"
                         class="rounded-md border-2 px-2 py-1 text-sm focus:outline-blue-500">
                 </div>
                 <div class="flex flex-col mb-3">
                     <label for="classId" class="text-sm">Kelas Siswa</label>
-                    <span class="text-xs my-1 text-red-500">{{ errorStore.get('classId') }}</span>
                     <select v-model="student.classId" required name="classId" id="classId"
                         class="rounded-md border-2 w-1/2 px-2 py-1 text-sm focus:outline-blue-500">
                         <option value="" disabled selected>Masukkan Kelas</option>

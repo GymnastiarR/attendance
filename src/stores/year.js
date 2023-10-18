@@ -1,5 +1,6 @@
 import axios from "../axiosConfiguration";
 import { defineStore } from "pinia";
+import { useErrorStore } from "./error";
 
 export const useYearStore = defineStore( 'year', {
     state: () => ( {
@@ -22,7 +23,9 @@ export const useYearStore = defineStore( 'year', {
                         name: ""
                     };
                 } )
-                .catch( error => console.log( error ) );
+                .catch( error => {
+                    useErrorStore().setError( error );
+                } );
         }
     }
 } );

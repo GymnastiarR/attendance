@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import axios from "../axiosConfiguration";
 import { useErrorStore } from "./error";
 import { useClassStore } from "./class";
 
@@ -28,7 +28,7 @@ export const useStudentStore = defineStore( 'student', {
                     };
                 } )
                 .catch( error => {
-                    useErrorStore().errors = error.response.data.message;
+                    useErrorStore().setError( error );
                 } );
         },
 

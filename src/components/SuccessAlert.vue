@@ -16,17 +16,14 @@ const { error } = storeToRefs( errorStore );
                     <span class="mb-4 absolute -top-12 right-0">
                         <IconError />
                     </span>
-                    <p class="text-xl text-white font-semibold">Kesalahan</p>
+                    <p class="text-xl text-white font-semibold">Berhasil Menembahkan Data</p>
                 </div>
                 <div class="px-8 py-6 flex flex-col justify-between box-border h-2/3">
                     <div class="">
                         <ul v-if="error.status === 'ERR_BAD_REQUEST'">
-                            <li class="text-red-500 italic" v-for="message in error.messages" v-text="message.message">
+                            <li class="text-red-500 italic" v-for="message in error.messsages" v-text="message.message">
                             </li>
                         </ul>
-                        <p v-else>
-                            {{ error.messages }}
-                        </p>
                     </div>
                     <div class="flex justify-end">
                         <button class="rounded-md bg-red-500 px-4 py-2 text-white text-sm"

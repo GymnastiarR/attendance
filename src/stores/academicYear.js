@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { useClassStore } from "./class";
-import axios from "../axiosConfiguration";
+import { useErrorStore } from "./error";
+import axios from "../axiosConfiguration.js";
 
 export const useAcademicYearStore = defineStore( 'academicYear', {
     state: () => ( {
@@ -27,7 +28,9 @@ export const useAcademicYearStore = defineStore( 'academicYear', {
         getAcademicYears() {
             axios.get( '/tahun-pelajaran' )
                 .then( response => this.academicYears = response.data.data )
-                .catch( error => console.log( error ) );
+                .catch( error => {
+                    useErrorStore().setError( error );
+                } );
         },
 
         setCurrentAcademicYear( academicYearId ) {
@@ -50,7 +53,9 @@ export const useAcademicYearStore = defineStore( 'academicYear', {
                     };
                     this.getAcademicYears();
                 } )
-                .catch( error => console.log( error ) );
+                .catch( error => {
+                    useErrorStore().setError( error );
+                } );
         }
     }
 } );
