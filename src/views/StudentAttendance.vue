@@ -9,6 +9,8 @@ import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 
+const API = import.meta.env.VITE_API;
+
 const $route = ref( useRoute() );
 
 const id = $route.value.params.id;
@@ -38,7 +40,7 @@ onBeforeMount( () => {
                 <p>{{ detailStudent.name }}</p>
                 <p>{{ solveNameClass(detailStudent) }}</p>
                 <p>{{ detailStudent.AttendanceStudent }}</p>
-                <a :href="`http://localhost:80/api/siswa/${id}/presence/download`">Unduh Presensi</a>
+                <a :href="`${API}/siswa/${id}/presence/download`">Unduh Presensi</a>
             </div>
             <div class="bg-white p-8 rounded-md drop-shadow-md mb-2 overflow-auto">
                 <div class="border-b-2 pb-4 mb-3">

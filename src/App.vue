@@ -9,6 +9,7 @@ import { onBeforeMount, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useMenuStore } from './stores/menu';
 import { useErrorStore } from './stores/error';
+import SuccessAlert from './components/SuccessAlert.vue';
 
 const academicYearStore = useAcademicYearStore();
 const menuStore = useMenuStore();
@@ -32,8 +33,11 @@ const { isShow } = storeToRefs( menuStore );
     <nav class="h-20 flex items-center">
       <!-- <RouterLink to="/" class="px-4 text-white">Home</RouterLink>
       <RouterLink to="/about" class="px-4 text-white">About</RouterLink> -->
-      <p v-if="currentAcademicYear" class="text-white">Tahun Ajaran {{ currentAcademicYear.year }} Semester {{
-        currentAcademicYear.semester }}</p>
+      <div v-if="currentAcademicYear">
+        <p class="text-white">Tahun Ajaran : {{ currentAcademicYear.year }} </p>
+        <p class="text-white">Semester : {{
+          currentAcademicYear.semester }}</p>
+      </div>
       <RouterLink v-else to="/tahun-pelajaran" class="text-white">
         Buat Tahun Ajaran
       </RouterLink>
@@ -41,5 +45,6 @@ const { isShow } = storeToRefs( menuStore );
   </header>
   <LoadingAnimation />
   <ErrorAlert />
+  <SuccessAlert />
   <RouterView />
 </template>

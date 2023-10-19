@@ -1,6 +1,7 @@
 import axios from "../axiosConfiguration";
 import { defineStore } from "pinia";
 import { useErrorStore } from "./error";
+import { useLoadingStore } from "./loading";
 
 export const useMajorStore = defineStore( 'major', {
     state: () => ( {
@@ -18,6 +19,7 @@ export const useMajorStore = defineStore( 'major', {
         },
 
         store() {
+            useLoadingStore().loading = true;
             axios.post( '/jurusan', this.major )
                 .then( () => {
                     this.major = {
@@ -25,7 +27,11 @@ export const useMajorStore = defineStore( 'major', {
                     };
                 } )
                 .catch( error => {
+                    console.log( error );
                     useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
                 } );
         }
     }

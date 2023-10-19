@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 import axios from "../axiosConfiguration";
+import { useErrorStore } from "./error";
+import { useLoadingStore } from "./loading";
+import { useSuccessStore } from "./success";
 
 export const useAttendanceUnitStore = defineStore( 'attendanceUnit', {
     state: () => ( {
@@ -18,15 +21,22 @@ export const useAttendanceUnitStore = defineStore( 'attendanceUnit', {
         },
 
         store() {
+            useLoadingStore().loading = true;
             axios.post( '/unit-presensi', this.attendanceUnit )
-                .then( () => {
+                .then( response => {
                     this.attendanceUnit = {
                         name: "",
                         identifier: ""
                     };
                     this.getAttendanceUnits();
+                    useSuccessStore().setSuccess( response );
                 } )
-                .catch( error => console.log( error ) );
+                .catch( error => {
+                    useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
+                } );
         },
 
         setClass( attendanceUnitId ) {

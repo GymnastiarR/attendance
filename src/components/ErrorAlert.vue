@@ -12,7 +12,7 @@ const { error } = storeToRefs( errorStore );
     <Transition name="fade">
         <div v-show="error.status"
             class="fixed top-0 right-0 bottom-0 left-0 bg-black/50 z-30 flex justify-center items-center">
-            <div class="overflow-hidden bg-white rounded-md w-[90%] md:[70%] md:1/2 lg:w-1/3 lg:h-1/3 flex-col relative">
+            <div class="overflow-hidden bg-white rounded-md w-[90%] md:w-1/2 lg:w-1/3 h-1/3 flex-col relative">
                 <div class="bg-[#d45659] w-full h-1/3 flex items-center px-4 relative">
                     <span class="mb-4 absolute -top-12 right-0">
                         <IconError />
@@ -21,11 +21,11 @@ const { error } = storeToRefs( errorStore );
                 </div>
                 <div class="px-8 py-6 flex flex-col justify-between box-border h-2/3">
                     <div class="">
-                        <ul v-if="error.status === 'ERR_BAD_REQUEST'">
+                        <ul v-if="error.status === 400">
                             <li class="text-red-500 italic" v-for="message in error.messages" v-text="message.message">
                             </li>
                         </ul>
-                        <p v-else>
+                        <p v-else class="text-red-500 italic">
                             {{ error.messages }}
                         </p>
                     </div>

@@ -92,24 +92,24 @@ onBeforeMount( () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(student, index) of classDetail.ClassStudent">
+                        <tr v-for="(student, index) of classDetail.Student">
                             <!-- <td>{{ student }}</td> -->
                             <td class="px-3 h-12">{{ index + 1 }}</td>
-                            <td class="px-3 h-12">{{ student.Student.name }}</td>
-                            <td class="px-3 h-12">{{ student.Student.nis }}</td>
+                            <td class="px-3 h-12">{{ student.name }}</td>
+                            <td class="px-3 h-12">{{ student.nis }}</td>
                             <td class="px-3 h-12">
-                                <template v-if="student.Student.rfid">
-                                    {{ student.Student.rfid }}
+                                <template v-if="student.rfid">
+                                    {{ student.rfid }}
                                 </template>
                                 <template v-else>
-                                    <RouterLink :to="{ name: 'siswa-rfid', params: { id: student.Student.id } }"
+                                    <RouterLink :to="{ name: 'siswa-rfid', params: { id: student.id } }"
                                         class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-1">
                                         Assign RFID
                                     </RouterLink>
                                 </template>
                             </td>
                             <td class="flex flex-wrap justify-center">
-                                <button @click="classStore.removeStudent($route.params.id, student.Student.id)"
+                                <button @click="classStore.removeStudent($route.params.id, student.id)"
                                     class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-1">
                                     Keluarkan
                                 </button>

@@ -21,7 +21,8 @@ import IconSpace from './IconSpace.vue';
 import IconStudent from './IconStudent.vue';
 import IconSupport from './IconSupport.vue';
 import IconTooling from './IconTooling.vue';
+import IconSuccess from './IconSuccess.vue';
 
 export {
-    IconAdd, IconArrowLeft, IconArrowRight, IconCallender, IconClose, IconCommunity, IconDashboard, IconDocumentation, IconDoor, IconEcosystem, IconError, IconGroup, IconHand, IconLink, IconMenu, IconMore, IconRaiseHand, IconReport, IconSpace, IconStudent, IconSupport, IconTooling, IconSchool
+    IconAdd, IconArrowLeft, IconArrowRight, IconCallender, IconClose, IconCommunity, IconDashboard, IconDocumentation, IconDoor, IconEcosystem, IconError, IconGroup, IconHand, IconLink, IconMenu, IconMore, IconRaiseHand, IconReport, IconSpace, IconStudent, IconSupport, IconTooling, IconSchool, IconSuccess
 };

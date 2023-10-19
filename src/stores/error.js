@@ -10,21 +10,26 @@ export const useErrorStore = defineStore( 'error', {
 
     actions: {
         setError( error ) {
-            if ( error.code == "ERR_BAD_REQUEST" ) {
+            if ( error.response.status == 400 ) {
                 this.error = {
-                    status: error.code,
+                    status: error.response.status,
                     messages: JSON.parse( error.response.data.message )
                 };
                 return;
             }
+
+            if ( error.response.status === 409 ) {
+                this.error = {
+                    status: error.response.status,
+                    messages: error.response.data.message
+                };
+                return;
+            }
+
             this.error = {
+                status: error.response.status,
                 messages: error.response.data.message
             };
-        },
-
-        get( key ) {
-            const error = this.errors.find( error => error.context.key === key );
-            return error ? error.message : undefined;
         },
 
         clear() {

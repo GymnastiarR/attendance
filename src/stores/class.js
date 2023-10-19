@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import axios from "../axiosConfiguration";
 import { useStudentStore } from "./student";
 import { useErrorStore } from "./error";
+import { useLoadingStore } from "./loading";
+import { useSuccessStore } from "./success";
 
 export const useClassStore = defineStore( 'class', {
 
@@ -19,6 +21,7 @@ export const useClassStore = defineStore( 'class', {
 
         }
     } ),
+
     getters: {
         getClassesName() {
             if ( this.classes.length === 0 ) return [];
@@ -50,6 +53,7 @@ export const useClassStore = defineStore( 'class', {
         },
 
         store() {
+            useLoadingStore().loading = true;
             axios.post( '/kelas', this.clss )
                 .then( response => {
                     this.clss = {
@@ -62,9 +66,13 @@ export const useClassStore = defineStore( 'class', {
                     };
                     this.getClasses();
                     useStudentStore().getUser( '?tanpa_kelas=true' );
+                    useSuccessStore().setSuccess( response );
                 } )
                 .catch( error => {
                     useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
                 } );
         },
 

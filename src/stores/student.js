@@ -3,10 +3,11 @@ import axios from "../axiosConfiguration";
 import { useErrorStore } from "./error";
 import { useClassStore } from "./class";
 import { useLoadingStore } from "./loading";
+import { useSuccessStore } from "./success";
 
 export const useStudentStore = defineStore( 'student', {
     state: () => ( {
-        students: null,
+        students: [],
         student: {
             name: "",
             nis: "",
@@ -20,6 +21,7 @@ export const useStudentStore = defineStore( 'student', {
     actions: {
         storeStudent() {
             useLoadingStore().loading = true;
+
             axios.post( '/siswa', this.student )
                 .then( response => {
                     this.getUser();
@@ -28,6 +30,7 @@ export const useStudentStore = defineStore( 'student', {
                         nis: "",
                         classId: ""
                     };
+                    useSuccessStore().setSuccess( response );
                 } )
                 .catch( error => {
                     useErrorStore().setError( error );
@@ -38,23 +41,34 @@ export const useStudentStore = defineStore( 'student', {
         },
 
         getUser( query = '' ) {
+            useLoadingStore().loading = true;
+
             axios.get( `/siswa${query}` )
                 .then( response => {
                     this.students = response.data.data;
                 } )
                 .catch( error => {
-                    useErrorStore().errors = error.response.data.message;
+                    console.log( error );
+                    useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
                 } );
         },
 
         assignStudent( classId, studentId ) {
+            useLoadingStore().loading = true;
+
             axios.put( `/siswa/${studentId}/kelas`, { classId: classId } )
                 .then( response => {
                     this.getUser( '?tanpa_kelas=true' );
                     useClassStore().getClass( classId );
                 } )
                 .catch( error => {
-                    console.log( error );
+                    useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
                 } );
         },
 
@@ -67,5 +81,24 @@ export const useStudentStore = defineStore( 'student', {
                     console.log( error );
                 } );
         },
+
+        destroy( studentId ) {
+            useLoadingStore().loading = true;
+
+            for ( let index = 0; index < 10000000; index++ ) {
+
+            }
+
+            axios.delete( `/siswa/${studentId}` )
+                .then( response => {
+                    this.getUser();
+                } )
+                .catch( error => {
+                    useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
+                } );
+        }
     },
 } );

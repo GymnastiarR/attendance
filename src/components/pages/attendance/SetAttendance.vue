@@ -2,18 +2,21 @@
 import { storeToRefs } from 'pinia';
 import IconClose from '../../../components/icons/IconClose.vue';
 import { useStudentStore } from '../../../stores/student';
+import { useAttendanceStore } from '../../../stores/attendance';
 import { ref, onBeforeMount } from 'vue';
 
 const studentStore = useStudentStore();
+const attendanceStore = useAttendanceStore();
 
 const { students } = storeToRefs( studentStore );
+const { attendance, selectedStudent } = storeToRefs( attendanceStore );
 
-const selectedStudent = ref( "" );
+const search = ref( "" );
 
-const attendance = ref( {
-    status: "",
-    date: "",
+onBeforeMount( () => {
+    studentStore.getUser( '' );
 } );
+
 </script>
 
 <template>
@@ -36,8 +39,10 @@ const attendance = ref( {
                         </button>
                     </div>
                     <div class="flex" v-else>
+                        {{ search }}
                         <input v-model="search" type="text" class="py-1 px-2 rounded-md border-2 mr-2">
-                        <button @click="getSiswa" class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white">Cari</button>
+                        <button @click="studentStore.getUser(`?tanpa_kelas=true&search=${search}`)"
+                            class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white">Cari</button>
                     </div>
                 </div>
                 <div class="flex flex-col mb-2">
@@ -65,10 +70,12 @@ const attendance = ref( {
                         <tr v-for="student in students">
                             <td class="px-3 py-2 text-sm w-60">{{ student.name }}</td>
                             <td class="px-3 py-2 text-sm">{{ student.nis }}</td>
-                            <td class="px-3 py-2 text-sm">{{ student.ClassStudent.length > 0 ? 'Ada' : 'Gak ada' }}
-                            </td>
                             <td class="px-3 py-2 text-sm">
-                                <button @click="selectedStudent = student" class="bg-blue-500 px-4 text-sm py-2">
+                                {{ student.Class ? 'Ada' : 'Gak ada' }}
+                            </td>
+                            <td class="px-3 py-2 text-sm flex justify-center">
+                                <button @click="selectedStudent = student"
+                                    class="bg-blue-500 text-white rounded-md px-4 text-sm py-2">
                                     Pilih
                                 </button>
                             </td>
@@ -77,7 +84,8 @@ const attendance = ref( {
                 </table>
             </div>
         </div>
-        <button @click="setPresensi" class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white">Tetapkan
+        <button @click="attendanceStore.updateStatusAttendanceStudent()"
+            class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white">Tetapkan
             Kehadiran</button>
     </div>
 </template>

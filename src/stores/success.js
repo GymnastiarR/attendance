@@ -1,32 +1,27 @@
-// import { defineStore } from "pinia";
+import { defineStore } from "pinia";
 
-// export const useErrorStore = defineStore( 'error', {
-//     state: () => ( {
-//         success: {
-//             status: "",
-//             messsages: ""
-//         }
-//     } ),
+export const useSuccessStore = defineStore( 'success', {
+    state: () => ( {
+        success: {
+            status: "",
+            messages: ""
+        }
+    } ),
 
-//     getters: {
-//         getTest() {
+    actions: {
+        setSuccess( response ) {
+            this.success = {
+                status: response.status,
+                messages: response.data.message
+            };
+        },
 
-//         }
-//     },
+        clear() {
+            this.success = {
+                status: "",
+                messages: ""
+            };
+        },
 
-//     actions: {
-
-//         get( key ) {
-//             const error = this.errors.find( error => error.context.key === key );
-//             return error ? error.message : undefined;
-//         },
-
-//         clear() {
-//             this.error = {
-//                 status: "",
-//                 messsages: ""
-//             };
-//         },
-
-//     }
-// } );
+    }
+} );

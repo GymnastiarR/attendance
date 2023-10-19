@@ -8,9 +8,8 @@ import { storeToRefs } from 'pinia';
 
 const attendanceStore = useAttendanceStore();
 
-const { attendances } = storeToRefs( attendanceStore );
+const { attendances, date } = storeToRefs( attendanceStore );
 
-const date = ref( "" );
 
 onBeforeMount( () => {
     attendanceStore.getAttendances();
@@ -26,11 +25,25 @@ onBeforeMount( () => {
                 <div class="mb-2 border-b-2 pb-2">
                     <h1 class="font-semibold">Buat Presensi</h1>
                 </div>
-                <div class="w-full mb-2">
-                    <input class="w-full py-1 px-2 rounded-md border-2" type="date" v-model="date">
+                <div class="px-4">
+                    <div class="mb-4">
+                        <h1 class="text-sm mb-2 font-semibold">Buat Presensi Manual</h1>
+                        <div class="w-full mb-2">
+                            <input class="w-full py-1 px-2 rounded-md border-2" type="date" v-model="date">
+                        </div>
+                        <button class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white"
+                            @click.prevent="attendanceStore.store(date)">Buat Presensi Manual</button>
+                    </div>
+                    <div>
+                        <h1 class="text-sm mb-2 font-semibold">Jalankan Pembuatan Presensi Otomatis</h1>
+                        <p class="text-xs mb-2 italic">
+                            Dengan menjalankan pembuatan presensi otomatis maka presensi akan dibuat secara otomatis hari
+                            senin-jumat jam 00.00
+                        </p>
+                        <button class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white"
+                            @click.prevent="attendanceStore.store(date)">Buat Presensi Manual</button>
+                    </div>
                 </div>
-                <button class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white"
-                    @click.prevent="attendanceStore.createAttendance(date)">Buat Presensi</button>
             </div>
             <div class="bg-white drop-shadow-md rounded-md px-8 py-6 mb-3">
                 <table class="w-[100%] min-w-[700px]">

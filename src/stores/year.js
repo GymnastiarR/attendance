@@ -24,6 +24,7 @@ export const useYearStore = defineStore( 'year', {
                     };
                 } )
                 .catch( error => {
+                    console.log( error );
                     useErrorStore().setError( error );
                 } );
         }

@@ -44,8 +44,8 @@ const { year } = storeToRefs( yearStore );
                 </div>
                 <form action="" class="w-1/2">
                     <div class="flex flex-col mb-4">
-                        <label for="">Nama Jurusan</label>
-                        <input placeholder="IPA" type="text" v-model="year.name" class="border-2 rounded-md px-2 py-1">
+                        <label for="">Nama Tingkat</label>
+                        <input placeholder="10" type="text" v-model="year.name" class="border-2 rounded-md px-2 py-1">
                     </div>
                     <button @click.prevent="yearStore.store" class="text-white py-2 bg-blue-500 px-4 rounded-md text-xs">
                         Buat Tingkat

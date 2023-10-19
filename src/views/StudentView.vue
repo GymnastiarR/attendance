@@ -5,7 +5,6 @@ import SearchForm from '../components/SearchForm.vue';
 import CreateSiswa from '../components/CreateSiswa.vue';
 import { RouterLink } from 'vue-router';
 import AppLayout from '../layouts/AppLayout.vue';
-import ErrorAlert from '../components/ErrorAlert.vue';
 import { onBeforeMount } from 'vue';
 import { useStudentStore } from '../stores/student';
 import { useClassStore } from '../stores/class';
@@ -16,12 +15,9 @@ const classStore = useClassStore();
 
 const { students } = storeToRefs( studentStore );
 
-const solveName = ( student ) => {
-    if ( student.ClassStudent.length > 0 ) {
-        return `${student.ClassStudent[ 0 ].Class.Year.name} ${student.ClassStudent[ 0 ].Class.Major.name} ${student.ClassStudent[ 0 ].Class.name}`;
-    } else {
-        return "Belum ada kelas";
-    }
+const solveName = ( clss ) => {
+    if ( !clss ) return "Belum ada kelas";
+    return `${clss.Year.name} ${clss.Major.name} ${clss.name}`;
 };
 
 onBeforeMount( () => {
@@ -56,13 +52,12 @@ onBeforeMount( () => {
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="students !== null">
                         <tr v-for="(student, index) of students">
                             <td class="px-3 h-12 text-sm">{{ index + 1 }}</td>
                             <td class="px-3 h-12 text-sm">{{ student.name }}</td>
                             <td class="px-3 h-12 text-sm">{{ student.nis }}</td>
-                            <td class="px-3 h-12 text-sm min-w-[100px]">{{ solveName(student) }}</td>
-                            <!-- <td class="px-3 h-12 text-sm" v-text="solveName(siswa)"></td> -->
+                            <td>{{ solveName(student.Class) }}</td>
                             <td class="px-3 h-12 text-sm min-w-[150px]">
                                 <template v-if="student.rfid">
                                     {{ student.rfid }}
@@ -79,10 +74,10 @@ onBeforeMount( () => {
                                     class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-2">
                                     Pindah Kelas
                                 </RouterLink>
-                                <RouterLink to="/siswa/"
+                                <button @click="studentStore.destroy(student.id)"
                                     class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-2">
                                     Hapus
-                                </RouterLink>
+                                </button>
                                 <RouterLink :to="'/siswa/' + student.id + '/presensi'"
                                     class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-2">
                                     Lihat
@@ -92,6 +87,11 @@ onBeforeMount( () => {
                         </tr>
                     </tbody>
                 </table>
+                <div v-if="students === null" class="w-full mt-4">
+                    <p class="text-center text-xl text-gray-800 font-semibold">
+                        Tidak Ada Siswa Yang Terdaftar
+                    </p>
+                </div>
             </div>
             <div class="flex justify-center">
                 <div class="px-4 bg-white drop-shadow-md rounded-md flex py-2">
