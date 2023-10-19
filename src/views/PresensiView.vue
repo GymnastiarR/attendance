@@ -10,6 +10,8 @@ const attendanceStore = useAttendanceStore();
 
 const { attendances, date } = storeToRefs( attendanceStore );
 
+const API = import.meta.env.VITE_API;
+
 
 onBeforeMount( () => {
     attendanceStore.getAttendances();
@@ -75,7 +77,7 @@ onBeforeMount( () => {
                             <td class="text-center w-24">10</td>
                             <td class="px-3 h-12 text-sm w-72 text-center">
                                 <a class="bg-blue-500 text-white px-4 py-2 text-xs rounded-md text-center"
-                                    :href="`http://localhost:3000/api/presensi/download?dateStart=${attendance.date}`">Unduh
+                                    :href="`${API}/presensi/download?dateStart=${attendance.date}`">Unduh
                                     Data</a>
                             </td>
                         </tr>
