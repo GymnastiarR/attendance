@@ -52,6 +52,9 @@ onBeforeMount( () => {
                             <th class="text-left px-3 text-sm">No</th>
                             <th class="text-left px-3 text-sm">Tanggal</th>
                             <th>Hadir</th>
+                            <th>Izin</th>
+                            <th>Sakit</th>
+                            <th>Alfa</th>
                             <!-- <th class="text-left px-3 text-sm">Jumlah Siswa</th> -->
                             <!-- <th class="text-left px-3 text-sm">Status</th> -->
                             <th>Action</th>
@@ -66,9 +69,13 @@ onBeforeMount( () => {
                                 month: "long",
                                 day: "numeric",
                             }) }}</td>
-                            <td>10</td>
-                            <td class="px-3 h-12 text-sm w-32 text-center">
-                                <a :href="`http://localhost:80/api/presensi/download?date=${attendance.date}`">Unduh
+                            <td class="text-center w-24">10</td>
+                            <td class="text-center w-24">10</td>
+                            <td class="text-center w-24">10</td>
+                            <td class="text-center w-24">10</td>
+                            <td class="px-3 h-12 text-sm w-72 text-center">
+                                <a class="bg-blue-500 text-white px-4 py-2 text-xs rounded-md text-center"
+                                    :href="`http://localhost:3000/api/presensi/download?dateStart=${attendance.date}`">Unduh
                                     Data</a>
                             </td>
                         </tr>

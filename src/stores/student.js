@@ -21,7 +21,6 @@ export const useStudentStore = defineStore( 'student', {
     actions: {
         storeStudent() {
             useLoadingStore().loading = true;
-
             axios.post( '/siswa', this.student )
                 .then( response => {
                     this.getUser();
@@ -73,21 +72,22 @@ export const useStudentStore = defineStore( 'student', {
         },
 
         getStudent( studentId ) {
+            useLoadingStore().loading = true;
             axios.get( `/siswa/${studentId}` )
                 .then( response => {
+                    console.log( response.data.data );
                     this.detailStudent = response.data.data;
                 } )
                 .catch( error => {
-                    console.log( error );
+                    useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
                 } );
         },
 
         destroy( studentId ) {
             useLoadingStore().loading = true;
-
-            for ( let index = 0; index < 10000000; index++ ) {
-
-            }
 
             axios.delete( `/siswa/${studentId}` )
                 .then( response => {

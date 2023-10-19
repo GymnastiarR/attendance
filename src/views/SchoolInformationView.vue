@@ -17,6 +17,34 @@ const { year } = storeToRefs( yearStore );
         <!-- <main class="bg-[#f5f5f5] w-4/5 p-8"> -->
         <AppLayout>
             <div class="bg-white rounded-md drop-shadow-md px-8 py-6 mb-4">
+                <h2 class="text-lg font-semibold mb-4">Informasi Sekolah</h2>
+                <table>
+                    <tbody>
+                        <tr class="mb-2">
+                            <td>Nama Sekolah</td>
+                            <td class="w-3 text-center">:</td>
+                            <td>SMAN 103 Jakarta</td>
+                        </tr>
+                        <tr class="mb-2">
+                            <td>Alamat</td>
+                            <td class="w-3 text-center">:</td>
+                            <td>Jalan Pengarengan Kp Rawabadung Rt 01</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <h2 class="">Jurusan</h2>
+                    <ul class="ml-6 list-disc">
+                        <li>
+                            <p>IPA</p>
+                        </li>
+                        <li>
+                            <p>IPS</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-white rounded-md drop-shadow-md px-8 py-6 mb-4">
                 <div class="border-b-2 pb-3 mb-3">
                     <h2 class="font-semibold">Buat Jurusan Baru</h2>
                 </div>
@@ -29,14 +57,6 @@ const { year } = storeToRefs( yearStore );
                         Buat Jurusan
                     </button>
                 </form>
-            </div>
-            <div class="bg-white rounded-md drop-shadow-md px-8 py-6 mb-4">
-                <div class="border-b-2 pb-3 mb-3">
-                    <h2 class="font-semibold">Buat Tingkat Baru</h2>
-                </div>
-                <!-- <table>
-
-                </table> -->
             </div>
             <div class="bg-white rounded-md drop-shadow-md px-8 py-6 mb-4">
                 <div class="border-b-2 pb-3 mb-3">

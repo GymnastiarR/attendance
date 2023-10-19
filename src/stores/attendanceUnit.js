@@ -10,6 +10,10 @@ export const useAttendanceUnitStore = defineStore( 'attendanceUnit', {
         attendanceUnit: {
             name: "",
             identifier: ""
+        },
+        assignUnit: {
+            classId: "",
+            unitId: ""
         }
     } ),
 
@@ -22,6 +26,7 @@ export const useAttendanceUnitStore = defineStore( 'attendanceUnit', {
 
         store() {
             useLoadingStore().loading = true;
+
             axios.post( '/unit-presensi', this.attendanceUnit )
                 .then( response => {
                     this.attendanceUnit = {
@@ -41,6 +46,22 @@ export const useAttendanceUnitStore = defineStore( 'attendanceUnit', {
 
         setClass( attendanceUnitId ) {
             axios.put( `/unit-presensi/${this.attendanceUnitId}/kelas` );
+        },
+
+        assign( attendanceUnitId, classId ) {
+            useLoadingStore().loading = true;
+
+            axios.put( `/unit-presensi/${attendanceUnitId}/kelas`, { classId: classId } )
+                .then( response => {
+                    this.getAttendanceUnits();
+                    useSuccessStore().setSuccess( response );
+                } )
+                .catch( error => {
+                    useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
+                } );
         }
     }
 } );

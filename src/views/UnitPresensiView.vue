@@ -13,6 +13,13 @@ const classStore = useClassStore();
 const { attendanceUnits } = storeToRefs( attendanceUnitStore );
 const { classes } = storeToRefs( classStore );
 
+const solveClassName = ( clss ) => {
+    if ( clss.length === 0 ) return "Belum ada kelas";
+    return clss.map( item => `${item.Year.name} ${item.Major.name} ${item.name}` ).join( ", " );
+};
+
+const attendanceUnitId = ref( null );
+
 onBeforeMount( () => {
     attendanceUnitStore.getAttendanceUnits();
     classStore.getClasses();
@@ -45,7 +52,8 @@ const isShow = ref( false );
                             <td class="px-3 h-12 text-sm">{{ index + 1 }}</td>
                             <td class="px-3 h-12 text-sm">{{ unit.name }}</td>
                             <td class="px-3 h-12 text-sm">
-                                {{ unit.Class.length > 0 ? namaKelas(unit.Class) : 'Belum Ada' }}</td>
+                                {{ solveClassName(unit.Class) }}
+                            </td>
                             <td class="px-3 h-12 text-sm">{{ unit.identifier }}</td>
                             <!-- <td class="px-3 h-12 text-sm" v-text="siswa.uidRFID ? siswa.uidRFID : 'BELUM PUNYA'"></td> -->
                             <td class="text-center">
@@ -80,7 +88,7 @@ const isShow = ref( false );
                                 <td class="px-3 h-12 text-sm">{{ clas.Year.name }} {{ clas.Major.name }} {{
                                     clas.name }}</td>
                                 <td>
-                                    <button @click="assignUnitPresensi(clas.id)"
+                                    <button @click="attendanceUnitStore.assign(attendanceUnitId, clas.id)"
                                         class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1">
                                         Pilih
                                     </button>
