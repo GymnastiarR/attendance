@@ -32,8 +32,8 @@ export const useClassStore = defineStore( 'class', {
     },
 
     actions: {
-        getClasses() {
-            axios.get( '/kelas' )
+        getClasses( query = '' ) {
+            axios.get( `/kelas${query}` )
                 .then( response => {
                     this.classes = response.data.data;
                 } )
@@ -42,7 +42,7 @@ export const useClassStore = defineStore( 'class', {
                 } );
         },
 
-        getClass( classId ) {
+        getClass( classId, query = '' ) {
             axios.get( `/kelas/${classId}` )
                 .then( response => this.classDetail = response.data.data )
                 .catch( err => console.log( err ) );

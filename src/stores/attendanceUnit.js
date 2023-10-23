@@ -62,6 +62,22 @@ export const useAttendanceUnitStore = defineStore( 'attendanceUnit', {
                 .finally( () => {
                     useLoadingStore().loading = false;
                 } );
+        },
+
+        destroy( attendanceUnitId ) {
+            useLoadingStore().loading = true;
+
+            axios.delete( `/unit-presensi/${attendanceUnitId}` )
+                .then( response => {
+                    this.getAttendanceUnits();
+                    useSuccessStore().setSuccess( response );
+                } )
+                .catch( error => {
+                    useErrorStore().setError( error );
+                } )
+                .finally( () => {
+                    useLoadingStore().loading = false;
+                } );
         }
     }
 } );

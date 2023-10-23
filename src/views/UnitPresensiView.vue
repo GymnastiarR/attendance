@@ -61,9 +61,10 @@ const isShow = ref( false );
                                     class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1">
                                     Pilih Kelas
                                 </button>
-                                <RouterLink to="/siswa/" class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1">
+                                <button @click="attendanceUnitStore.destroy(unit.id)"
+                                    class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1">
                                     Hapus
-                                </RouterLink>
+                                </button>
                             </td>
                         </tr>
                     </tbody>

@@ -5,17 +5,25 @@ import AppLayout from '../layouts/AppLayout.vue';
 import { useAttendanceStore } from '../stores/attendance';
 import { ref, onBeforeMount } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useWarningStore } from '../stores/warning';
 
 const attendanceStore = useAttendanceStore();
 
-const { attendances, date } = storeToRefs( attendanceStore );
+const { attendances, date, automationStatus } = storeToRefs( attendanceStore );
 
 const API = import.meta.env.VITE_API;
 
 
-onBeforeMount( () => {
+onBeforeMount( async () => {
     attendanceStore.getAttendances();
+    attendanceStore.getAttendanceAutomationStatus();
 } );
+
+const presence = ( attendance, status ) => {
+    const result = attendance?.find( ( item ) => item.status === status );
+    if ( result ) return result;
+    return { status: status, _count: { status: 0 } };
+};
 
 </script>
 <template>
@@ -42,8 +50,12 @@ onBeforeMount( () => {
                             Dengan menjalankan pembuatan presensi otomatis maka presensi akan dibuat secara otomatis hari
                             senin-jumat jam 00.00
                         </p>
-                        <button class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white"
-                            @click.prevent="attendanceStore.store(date)">Buat Presensi Manual</button>
+
+                        <button v-if="automationStatus" class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white"
+                            @click="attendanceStore.stopAutomation">Hentikan Automasi</button>
+
+                        <button v-else class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white"
+                            @click="attendanceStore.runAutomation">Jalankan Automasi</button>
                     </div>
                 </div>
             </div>
@@ -71,14 +83,17 @@ onBeforeMount( () => {
                                 month: "long",
                                 day: "numeric",
                             }) }}</td>
-                            <td class="text-center w-24">10</td>
-                            <td class="text-center w-24">10</td>
-                            <td class="text-center w-24">10</td>
-                            <td class="text-center w-24">10</td>
+                            <td class="text-center w-24">{{ presence(attendance.data, 'Hadir')._count.status }}</td>
+                            <td class="text-center w-24">{{ presence(attendance.data, 'Izin')._count.status }}</td>
+                            <td class="text-center w-24">{{ presence(attendance.data, 'Sakit')._count.status }}</td>
+                            <td class="text-center w-24">{{ presence(attendance.data, 'Alpa')._count.status }}</td>
                             <td class="px-3 h-12 text-sm w-72 text-center">
-                                <a class="bg-blue-500 text-white px-4 py-2 text-xs rounded-md text-center"
+                                <a class="bg-blue-500 mx-1 text-white px-4 py-2 text-xs rounded-md text-center"
                                     :href="`${API}/presensi/download?dateStart=${attendance.date}`">Unduh
                                     Data</a>
+                                <button class="bg-blue-500 mx-1 text-white px-4 py-2 text-xs rounded-md text-center"
+                                    @click.prevent="useWarningStore().callWarning('Apakah Anda Yakin Akan Menghapus Presensi?', attendanceStore.destroy(attendance.date))">
+                                    Hapus Presensi</button>
                             </td>
                         </tr>
                     </tbody>

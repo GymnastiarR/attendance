@@ -50,7 +50,7 @@ onBeforeMount( () => {
                     <select name="" id="" class="py-1 px-2 rounded-md border-2" v-model="attendance.status">
                         <option value="" disabled>Pilih Status Kehadiran</option>
                         <option value="Hadir">Hadir</option>
-                        <option value="Alfa">Alfa</option>
+                        <option value="Alpa">Alpa</option>
                         <option value="Sakit">Sakit</option>
                         <option value="Izin">Izin</option>
                     </select>

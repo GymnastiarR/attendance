@@ -5,15 +5,12 @@ import { storeToRefs } from 'pinia';
 import { onBeforeMount, onUnmounted } from 'vue';
 import { ref } from 'vue';
 import { useStudentStore } from '../stores/student';
-import { useErrorStore } from '../stores/error';
 
 const classStore = useClassStore();
 const studentStore = useStudentStore();
-const errorStore = useErrorStore();
 
 const { classes } = storeToRefs( classStore );
 const { student } = storeToRefs( studentStore );
-const { errors } = storeToRefs( errorStore );
 
 const isShow = ref( false );
 

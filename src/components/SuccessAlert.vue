@@ -12,8 +12,8 @@ const { success } = storeToRefs( successStore );
     <Transition name="fade">
         <div v-if="success.status"
             class="fixed top-0 right-0 bottom-0 left-0 bg-black/50 z-30 flex justify-center items-center">
-            <div class="overflow-hidden bg-white rounded-md w-[90%] md:[70%] md:1/2 lg:w-1/3 lg:h-1/3 flex-col relative">
-                <div class="bg-[#3D71EB] w-full h-1/3 flex items-center px-4 relative">
+            <div class="overflow-hidden bg-white rounded-md w-[90%] md:w-1/2 lg:w-1/3 flex-col relative">
+                <div class="bg-[#3D71EB] w-full h-[80px]  flex items-center px-4 relative">
                     <span class="mb-4 absolute -top-12 right-0">
                         <IconSuccess />
                     </span>

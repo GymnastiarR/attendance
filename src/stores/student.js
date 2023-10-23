@@ -4,6 +4,7 @@ import { useErrorStore } from "./error";
 import { useClassStore } from "./class";
 import { useLoadingStore } from "./loading";
 import { useSuccessStore } from "./success";
+import { useWarningStore } from "./warning";
 
 export const useStudentStore = defineStore( 'student', {
     state: () => ( {
@@ -75,7 +76,6 @@ export const useStudentStore = defineStore( 'student', {
             useLoadingStore().loading = true;
             axios.get( `/siswa/${studentId}` )
                 .then( response => {
-                    console.log( response.data.data );
                     this.detailStudent = response.data.data;
                 } )
                 .catch( error => {
@@ -87,10 +87,31 @@ export const useStudentStore = defineStore( 'student', {
         },
 
         destroy( studentId ) {
-            useLoadingStore().loading = true;
+            return () => {
 
-            axios.delete( `/siswa/${studentId}` )
+                useWarningStore().warning = null;
+                useLoadingStore().loading = true;
+
+                axios.delete( `/siswa/${studentId}` )
+                    .then( response => {
+                        useSuccessStore().setSuccess( response );
+                        this.getUser();
+                    } )
+                    .catch( error => {
+                        console.log( error );
+                        useErrorStore().setError( error );
+                    } )
+                    .finally( () => {
+                        useLoadingStore().loading = false;
+                    } );
+            };
+        },
+
+        duplicate( classesId ) {
+            useLoadingStore().loading = true;
+            axios.post( `/siswa/duplicate`, { classesId } )
                 .then( response => {
+                    useSuccessStore().setSuccess( response );
                     this.getUser();
                 } )
                 .catch( error => {
@@ -98,6 +119,7 @@ export const useStudentStore = defineStore( 'student', {
                 } )
                 .finally( () => {
                     useLoadingStore().loading = false;
+
                 } );
         }
     },

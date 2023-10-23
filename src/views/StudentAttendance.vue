@@ -1,5 +1,5 @@
 <script setup>
-import { IconArrowLeft, IconArrowRight, IconMail, IconPerson, IconSick, IconCloseFill } from '../components/icons';
+import { IconArrowLeft, IconArrowRight, IconMail, IconPerson, IconSick, IconCloseFill, IconCard } from '../components/icons';
 import SideMenu from '../components/SideMenu.vue';
 import { RouterLink } from 'vue-router';
 import AppLayout from '../layouts/AppLayout.vue';
@@ -24,8 +24,10 @@ onBeforeMount( () => {
 } );
 
 const solveNameClass = ( clss ) => {
-    if ( !clss ) return "Belum Memiliki kelas";
-    return `${clss.Year.name} ${clss.Major.name} ${clss.name}`;
+    if ( clss && clss.length > 0 ) {
+        return `${clss[ 0 ].Class.Year.name} ${clss[ 0 ].Class.Major?.name} ${clss[ 0 ].Class.name}`;
+    }
+    return `Belum Memiliki Kelas`;
 };
 
 const presence = ( attendance, status ) => {
@@ -41,7 +43,6 @@ const presence = ( attendance, status ) => {
         <AppLayout>
             <div class="bg-white p-8 rounded-md drop-shadow-md mb-2 overflow-auto flex">
                 <div>
-
                     <h2 class=" font-semibold mb-4">Informasi Siswa</h2>
                     <table class="mb-3">
                         <tbody>
@@ -58,23 +59,40 @@ const presence = ( attendance, status ) => {
                             <tr>
                                 <td class="py-1">Kelas</td>
                                 <td class="py-1 w-3 text-center">:</td>
-                                <td class="py-1">{{ solveNameClass(detailStudent?.Class) }}</td>
+                                <td class="py-1">{{ solveNameClass(detailStudent?.ClassStudent) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-1">RFID</td>
+                                <td class="py-1 w-3 text-center">:</td>
+                                <td class="py-1">{{ detailStudent.rfid ? detailStudent.Rfid.rfid : 'Belum Memiliki RFID' }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-                    <a class="bg-blue-500 text-white py-2 rounded-md text-sm flex w-fit justify-center items-center px-4"
-                        :href="`${API}/siswa/${id}/presence/download`">
-                        <span class="px-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"
-                                fill="white">
-                                <path
-                                    d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
-                            </svg>
-                        </span>
-                        <span class="pr-3">
-                            UnduhPresensi
-                        </span>
-                    </a>
+                    <div class="flex">
+                        <a class="bg-blue-500 mr-2 text-xs text-white py-2 rounded-md flex w-fit justify-center items-center px-4"
+                            :href="`${API}/siswa/${id}/presence/download`">
+                            <span class="px-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"
+                                    fill="white">
+                                    <path
+                                        d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" />
+                                </svg>
+                            </span>
+                            <span class="pr-3">
+                                Unduh Presensi
+                            </span>
+                        </a>
+                        <RouterLink :to="{ name: 'siswa-rfid', params: { id: detailStudent.id } }"
+                            class="bg-blue-500 mr-2 text-xs text-white py-2 rounded-md flex w-fit justify-center items-center px-4">
+                            <span class=" px-2">
+                                <IconCard />
+                            </span>
+                            <span class="pr-3">
+                                {{ detailStudent.rfid ? 'Ganti RFID' : 'Assign RFID' }}
+                            </span>
+                        </RouterLink>
+                    </div>
                 </div>
             </div>
             <div class="bg-white p-8 rounded-md drop-shadow-md mb-2 overflow-auto">
@@ -142,7 +160,7 @@ const presence = ( attendance, status ) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(attendance, index) of detailStudent?.AttendanceStudent">
+                        <tr v-for="(attendance, index) of detailStudent.AttendanceStudent">
                             <td class="px-3 h-12 text-sm">{{ index + 1 }}</td>
                             <td class="px-3 h-12 text-sm">{{ new
                                 Date(attendance.Attendance.date).toLocaleDateString('id-ID', {
@@ -194,7 +212,6 @@ const presence = ( attendance, status ) => {
                     </div>
                 </div>
             </div>
-            <!-- <ErrorAlert v-if="store.error" /> -->
         </AppLayout>
     </div>
 </template>

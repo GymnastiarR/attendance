@@ -26,7 +26,8 @@ import IconSick from './IconSick.vue';
 import IconPerson from './IconPerson.vue';
 import IconMail from './IconMail.vue';
 import IconCloseFill from './IconCloseFill.vue';
+import IconCard from './IconCard.vue';
 
 export {
-    IconAdd, IconArrowLeft, IconArrowRight, IconCallender, IconClose, IconCommunity, IconDashboard, IconDocumentation, IconDoor, IconEcosystem, IconError, IconGroup, IconHand, IconLink, IconMenu, IconMore, IconRaiseHand, IconReport, IconSpace, IconStudent, IconSupport, IconTooling, IconSchool, IconSuccess, IconSick, IconPerson, IconMail, IconCloseFill
+    IconAdd, IconArrowLeft, IconArrowRight, IconCallender, IconClose, IconCommunity, IconDashboard, IconDocumentation, IconDoor, IconEcosystem, IconError, IconGroup, IconHand, IconLink, IconMenu, IconMore, IconRaiseHand, IconReport, IconSpace, IconStudent, IconSupport, IconTooling, IconSchool, IconSuccess, IconSick, IconPerson, IconMail, IconCloseFill, IconCard
 };

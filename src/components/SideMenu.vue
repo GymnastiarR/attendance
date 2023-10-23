@@ -22,7 +22,7 @@ const showClasses = ref( false );
 <template>
     <!-- <Transition name="fade"> -->
     <aside :class="[isShow ? '' : 'hidden']"
-        class="w-full z-10 fixed top-0 bottom-0 xl:block xl:w-1/5 bg-white h-full py-4 px-12 xl:sticky">
+        class="w-full z-10 fixed top-0 bottom-0 xl:block xl:w-1/5 bg-white h-full py-4 px-12 xl:sticky text-xs">
         <div class="mt-4 flex justify-between xl:hidden">
             <h1 class="text-lg font-semibold text-black block">SMAN 103 Jakarta</h1>
             <button @click="() => {
@@ -83,12 +83,12 @@ const showClasses = ref( false );
                 </span>
                 <router-link @click="isShow = false" to="/informasi-sekolah">Informasi Sekolah</router-link>
             </li>
-            <li class="my-4 flex items-center">
+            <!-- <li class="my-4 flex items-center">
                 <span class="mr-3">
                     <IconReport />
                 </span>
                 <router-link @click="isShow = false" to="/dashboard">Data Laporan</router-link>
-            </li>
+            </li> -->
             <li class="my-4 flex items-center bg-blue-400 p-2 rounded-md -mx-2">
                 <span class="mr-3">
                     <IconCallender />

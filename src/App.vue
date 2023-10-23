@@ -10,6 +10,7 @@ import { storeToRefs } from 'pinia';
 import { useMenuStore } from './stores/menu';
 import { useErrorStore } from './stores/error';
 import SuccessAlert from './components/SuccessAlert.vue';
+import WarningAlert from './components/WarningAlert.vue';
 
 const academicYearStore = useAcademicYearStore();
 const menuStore = useMenuStore();
@@ -45,6 +46,7 @@ const { isShow } = storeToRefs( menuStore );
   </header>
   <LoadingAnimation />
   <ErrorAlert />
+  <WarningAlert />
   <SuccessAlert />
   <RouterView />
 </template>
