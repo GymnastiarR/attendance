@@ -48,7 +48,6 @@ export const useStudentStore = defineStore( 'student', {
                     this.students = response.data.data;
                 } )
                 .catch( error => {
-                    console.log( error );
                     useErrorStore().setError( error );
                 } )
                 .finally( () => {
@@ -74,6 +73,7 @@ export const useStudentStore = defineStore( 'student', {
 
         getStudent( studentId ) {
             useLoadingStore().loading = true;
+
             axios.get( `/siswa/${studentId}` )
                 .then( response => {
                     this.detailStudent = response.data.data;

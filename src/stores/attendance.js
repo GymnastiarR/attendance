@@ -26,7 +26,6 @@ export const useAttendanceStore = defineStore( 'attendance', {
 
             axios.put( `/presensi/${this.selectedStudent.id}`, { date: this.attendance.date, status: this.attendance.status } )
                 .then( response => {
-                    // this.getAttendances();
                     this.attendance = {
                         status: "",
                         date: ""

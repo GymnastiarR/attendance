@@ -1,4 +1,7 @@
 import { defineStore } from "pinia";
+import { useRouter } from "vue-router";
+
+const $router = useRouter();
 
 export const useErrorStore = defineStore( 'error', {
     state: () => ( {
@@ -23,6 +26,12 @@ export const useErrorStore = defineStore( 'error', {
                     status: error.response.status,
                     messages: error.response.data.message
                 };
+                return;
+            }
+
+            if ( error.response.status === 401 ) {
+                // console.log( useRouter() );
+                this.$router.push( { name: 'login' } );
                 return;
             }
 

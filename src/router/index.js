@@ -22,7 +22,10 @@ const router = createRouter( {
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import( '../views/DashboardView.vue' )
+      component: () => import( '../views/DashboardView.vue' ),
+      meta: {
+        loginRequired: true
+      }
     },
     {
       path: '/siswa',
@@ -94,7 +97,22 @@ const router = createRouter( {
       name: 'Siswa Presensi',
       component: () => import( '../views/StudentAttendance.vue' )
     },
+    {
+      path: '/kantin',
+      name: 'canteen',
+      component: () => import( '../views/CanteenView.vue' )
+    },
+    {
+      path: '/kantin/:id',
+      name: 'detail canteen',
+      component: () => import( '../views/DetailShop.vue' )
+    },
   ]
 } );
+
+// router.beforeEach( ( to, from, next ) => {
+
+//   // if(to.loginRequired && )
+// } );
 
 export default router;

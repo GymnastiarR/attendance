@@ -1,6 +1,6 @@
 
 <script setup>
-import { IconStudent, IconDashboard, IconDoor, IconReport, IconCallender, IconRaiseHand, IconGroup, IconMore, IconClose, IconSchool } from './icons';
+import { IconStudent, IconDashboard, IconDoor, IconReport, IconCallender, IconRaiseHand, IconGroup, IconMore, IconClose, IconSchool, IconStore } from './icons';
 import { useMenuStore } from '../stores/menu';
 import { useClassStore } from '../stores/class';
 import { storeToRefs } from 'pinia';
@@ -38,6 +38,12 @@ const showClasses = ref( false );
                     <IconDashboard />
                 </span>
                 <router-link @click="isShow = false" to="/dashboard">Dashboard</router-link>
+            </li>
+            <li class="my-4 flex items-center">
+                <span class="mr-3">
+                    <IconStore />
+                </span>
+                <router-link @click="isShow = false" to="/kantin">Stand</router-link>
             </li>
             <li class="my-4 flex items-center">
                 <span class="mr-3">
