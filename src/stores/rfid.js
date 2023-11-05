@@ -3,7 +3,7 @@ import { useLoadingStore } from "./loading";
 import { useErrorStore } from "./error";
 import { useSuccessStore } from "./success";
 import { useRouter } from "vue-router";
-import { Call } from "../services/call";
+import { Call } from "../services/Calling";
 
 export const useRfidStore = defineStore( 'rfid', {
     state: () => ( {

@@ -3,7 +3,7 @@ import { useClassStore } from "./class";
 import { useErrorStore } from "./error";
 import { useLoadingStore } from "./loading";
 import axios from "../axiosConfiguration.js";
-import { Call } from "../services/call.js";
+import { Call } from "../services/Calling.js";
 
 export const useAcademicYearStore = defineStore( 'academicYear', {
     state: () => ( {

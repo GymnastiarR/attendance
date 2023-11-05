@@ -5,7 +5,7 @@ import { useClassStore } from "./class";
 import { useLoadingStore } from "./loading";
 import { useSuccessStore } from "./success";
 import { useWarningStore } from "./warning";
-import { Call } from "../services/call";
+import { Call } from "../services/Calling";
 
 export const useStudentStore = defineStore( 'student', {
     state: () => ( {
