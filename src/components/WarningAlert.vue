@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 
 const warningStore = useWarningStore();
 
-const { warning, callBack } = storeToRefs( warningStore );
+const { warning } = storeToRefs( warningStore );
 
 </script>
 
@@ -28,7 +28,7 @@ const { warning, callBack } = storeToRefs( warningStore );
                     <div class="flex justify-end">
                         <button class="rounded-md bg-blue-500 px-4 py-2 text-white text-sm"
                             @click="warning = null">Batalkan</button>
-                        <button @click="callBack()" class="rounded-md bg-red-500 px-4 py-2 text-white text-sm">
+                        <button @click="warningStore.continue" class="rounded-md bg-red-500 px-4 py-2 text-white text-sm">
                             Hapus
                         </button>
                     </div>

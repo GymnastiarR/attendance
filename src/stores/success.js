@@ -5,15 +5,18 @@ export const useSuccessStore = defineStore( 'success', {
         success: {
             status: "",
             messages: ""
-        }
+        },
+        callBack: null
     } ),
 
     actions: {
-        setSuccess( response ) {
+        setSuccess( response, callBack ) {
             this.success = {
                 status: response.status,
                 messages: response.data.message
             };
+
+            this.callBack = callBack;
         },
 
         clear() {
@@ -23,5 +26,12 @@ export const useSuccessStore = defineStore( 'success', {
             };
         },
 
+        close() {
+            this.clear();
+            // console.log( this.callBack );
+            if ( this.callBack ) {
+                this.callBack();
+            }
+        }
     }
 } );

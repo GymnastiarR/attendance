@@ -25,7 +25,7 @@ const { success } = storeToRefs( successStore );
                     </div>
                     <div class="flex justify-end">
                         <button class="rounded-md bg-blue-500 px-4 py-2 text-white text-sm"
-                            @click="successStore.clear">Close</button>
+                            @click="successStore.close">Close</button>
                     </div>
                 </div>
             </div>

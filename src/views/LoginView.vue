@@ -39,7 +39,7 @@ export default {
                 </div>
                 <div class="flex flex-col mb-4">
                     <label for="" class="mb-2">Password</label>
-                    <input v-model="password" type="text"
+                    <input v-model="password" type="password"
                         class="rounded-md border-2 px-2 py-1 text-sm focus:outline-blue-500">
                 </div>
                 <button @click.prevent="handleLogin"

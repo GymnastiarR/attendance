@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import { useLoadingStore } from "./loading";
-import axios from "../axiosConfiguration";
 import { useErrorStore } from "./error";
 import { useSuccessStore } from "./success";
+import { useRouter } from "vue-router";
+import { Call } from "../services/call";
 
 export const useRfidStore = defineStore( 'rfid', {
     state: () => ( {
@@ -11,20 +12,14 @@ export const useRfidStore = defineStore( 'rfid', {
 
     actions: {
         store( studentId, rfid ) {
-            useLoadingStore().loading = true;
-
-            axios.post( `/siswa/${studentId}/rfid`, { rfid: rfid } )
-                .then( response => {
-                    useSuccessStore().setSuccess( response );
-                    this.rfid = {};
-                } )
-                .catch( error => {
-                    console.log( error );
-                    useErrorStore().setError( error );
-                } )
-                .finally( () => {
-                    useLoadingStore().loading = false;
+            Call.post( `/siswa/${studentId}/rfid`, { rfid: rfid }, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+                useSuccessStore().setSuccess( response, () => {
+                    this.$router.push( { name: 'siswa' } );
                 } );
+            } );
         }
     }
 } );

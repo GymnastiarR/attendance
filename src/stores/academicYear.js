@@ -3,6 +3,7 @@ import { useClassStore } from "./class";
 import { useErrorStore } from "./error";
 import { useLoadingStore } from "./loading";
 import axios from "../axiosConfiguration.js";
+import { Call } from "../services/call.js";
 
 export const useAcademicYearStore = defineStore( 'academicYear', {
     state: () => ( {
@@ -16,6 +17,13 @@ export const useAcademicYearStore = defineStore( 'academicYear', {
     } ),
 
     actions: {
+        clear() {
+            this.academicYear = {
+                year: "",
+                semester: "",
+                duplicate: false,
+            };
+        },
         getCurrentAcademicYear() {
             axios.get( '/tahun-pelajaran?active=true' )
                 .then( response => {
@@ -35,32 +43,24 @@ export const useAcademicYearStore = defineStore( 'academicYear', {
         },
 
         setCurrentAcademicYear( academicYearId ) {
-            axios.get( `/tahun-pelajaran/${academicYearId}/active` )
-                .then( response => {
-                    this.getCurrentAcademicYear();
-                    this.getAcademicYears();
-                    useClassStore().getClasses();
-                } )
-                .catch( error => console.log( error ) );
+            Call.get( `/tahun-pelajaran/${academicYearId}/active`, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+                this.getCurrentAcademicYear();
+                this.getAcademicYears();
+                useClassStore().getClasses();
+            } );
         },
 
         store() {
-            useLoadingStore().loading = true;
-            axios.post( '/tahun-pelajaran', this.academicYear )
-                .then( response => {
-                    this.academicYear = {
-                        year: "",
-                        semester: "",
-                        duplicate: false,
-                    };
-                    this.getAcademicYears();
-                } )
-                .catch( error => {
-                    useErrorStore().setError( error );
-                } )
-                .finally( () => {
-                    useLoadingStore().loading = false;
-                } );
+            Call.post( '/tahun-pelajaran', this.academicYear, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+                this.clear();
+                this.getAcademicYears();
+            } );
         }
     }
 } );

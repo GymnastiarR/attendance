@@ -5,6 +5,7 @@ import { useClassStore } from "./class";
 import { useLoadingStore } from "./loading";
 import { useSuccessStore } from "./success";
 import { useWarningStore } from "./warning";
+import { Call } from "../services/call";
 
 export const useStudentStore = defineStore( 'student', {
     state: () => ( {
@@ -21,89 +22,63 @@ export const useStudentStore = defineStore( 'student', {
 
     actions: {
         storeStudent() {
-            useLoadingStore().loading = true;
-            axios.post( '/siswa', this.student )
-                .then( response => {
+            Call.post( '/siswa', this.student, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+                useSuccessStore().setSuccess( response, () => {
                     this.getUser();
-                    this.student = {
-                        name: "",
-                        nis: "",
-                        classId: ""
-                    };
-                    useSuccessStore().setSuccess( response );
-                } )
-                .catch( error => {
-                    useErrorStore().setError( error );
-                } )
-                .finally( () => {
-                    useLoadingStore().loading = false;
+                    this.clear();
                 } );
+            } );
+        },
+
+        clear() {
+            this.student = {
+                name: "",
+                nis: "",
+                classId: ""
+            };
         },
 
         getUser( query = '' ) {
-            useLoadingStore().loading = true;
-
-            axios.get( `/siswa${query}` )
-                .then( response => {
-                    this.students = response.data.data;
-                } )
-                .catch( error => {
-                    useErrorStore().setError( error );
-                } )
-                .finally( () => {
-                    useLoadingStore().loading = false;
-                } );
+            Call.get( `/siswa${query}`, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+                this.students = response.data.data;
+            } );
         },
 
         assignStudent( classId, studentId ) {
-            useLoadingStore().loading = true;
-
-            axios.put( `/siswa/${studentId}/kelas`, { classId: classId } )
-                .then( response => {
-                    this.getUser( '?tanpa_kelas=true' );
-                    useClassStore().getClass( classId );
-                } )
-                .catch( error => {
-                    useErrorStore().setError( error );
-                } )
-                .finally( () => {
-                    useLoadingStore().loading = false;
-                } );
+            Call.put( `/siswa/${studentId}/kelas`, { classId: classId }, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+                useClassStore().getClass( classId );
+                this.getUser( '?tanpa_kelas=true' );
+            } );
         },
 
         getStudent( studentId ) {
-            useLoadingStore().loading = true;
-
-            axios.get( `/siswa/${studentId}` )
-                .then( response => {
-                    this.detailStudent = response.data.data;
-                } )
-                .catch( error => {
-                    useErrorStore().setError( error );
-                } )
-                .finally( () => {
-                    useLoadingStore().loading = false;
-                } );
+            Call.get( `/siswa/${studentId}`, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+                this.detailStudent = response.data.data;
+            } );
         },
 
         destroy( studentId ) {
             return () => {
+                Call.delete( `/siswa/${studentId}`, ( error, response ) => {
+                    if ( error ) {
+                        return;
+                    }
+                    useSuccessStore().setSuccess( response );
 
-                useWarningStore().warning = null;
-                useLoadingStore().loading = true;
-
-                axios.delete( `/siswa/${studentId}` )
-                    .then( response => {
-                        useSuccessStore().setSuccess( response );
-                        this.getUser();
-                    } )
-                    .catch( error => {
-                        console.log( error );
-                        useErrorStore().setError( error );
-                    } )
-                    .finally( () => {
-                        useLoadingStore().loading = false;
-                    } );
+                    this.getUser();
+                } );
             };
         },
 

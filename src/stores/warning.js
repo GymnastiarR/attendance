@@ -10,6 +10,14 @@ export const useWarningStore = defineStore( 'warning', {
         callWarning( warning, callBack ) {
             this.warning = warning;
             this.callBack = callBack;
+        },
+
+        continue() {
+            this.warning = null;
+
+            if ( this.callBack ) {
+                this.callBack();
+            }
         }
     }
 } );
