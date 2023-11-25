@@ -33,6 +33,18 @@ export const useStudentStore = defineStore( 'student', {
             } );
         },
 
+        update( studentId, data ) {
+            Call.put( `/siswa/${studentId}`, { name: this.detailStudent.name, nis: this.detailStudent.nis }, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+
+                useSuccessStore().setSuccess( response, () => {
+                    this.getUser();
+                } );
+            } );
+        },
+
         clear() {
             this.student = {
                 name: "",

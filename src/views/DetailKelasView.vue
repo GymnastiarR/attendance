@@ -32,20 +32,20 @@ onBeforeMount( () => {
     <div class="flex min-h-screen">
         <SideMenu />
         <AppLayout>
-            <div class="bg-white rounded-md drop-shadow-md px-8 py-6 mb-4">
-                <div class="border-b-2 pb-3 mb-3">
+            <div class="px-8 py-6 mb-4 bg-white rounded-md drop-shadow-md">
+                <div class="pb-3 mb-3 border-b-2">
                     <h2 class="font-semibold">Siswa Tanpa Kelas</h2>
                 </div>
                 <div class="mb-2">
                     <form class="h-8">
                         <input type="text" placeholder="NIM / Nama" v-model="keyword"
-                            class="border-2 px-2 rounded-md h-full mr-2">
+                            class="h-full px-2 mr-2 border-2 rounded-md">
                         <button @click.prevent="studentStore.getUser('?tanpa_kelas=true&search=' + keyword)"
-                            class="text-white h-full bg-blue-500 px-4 rounded-md text-xs mr-2">
+                            class="h-full px-4 mr-2 text-xs text-white bg-blue-500 rounded-md">
                             Cari
                         </button>
                         <button @click.prevent="studentStore.getUser('?tanpa_kelas=true')"
-                            class="text-white h-full bg-blue-500 px-4 rounded-md text-xs">
+                            class="h-full px-4 text-xs text-white bg-blue-500 rounded-md">
                             Reset
                         </button>
                     </form>
@@ -54,24 +54,25 @@ onBeforeMount( () => {
                     <table class="w-[100%] min-w-[700px]">
                         <thead>
                             <tr class="h-10">
-                                <th class="text-left px-3 text-sm">No</th>
-                                <th class="text-left px-3 text-sm">Nama</th>
-                                <th class="text-left px-3 text-sm">NIS</th>
-                                <!-- <th class="text-left px-3 text-sm">Kelas</th> -->
-                                <th class="text-left px-3 text-sm">RFID</th>
+                                <th class="px-3 text-sm text-left">No</th>
+                                <th class="px-3 text-sm text-left">Nama</th>
+                                <th class="px-3 text-sm text-left">NIS</th>
+                                <!-- <th class="px-3 text-sm text-left">Kelas</th> -->
+                                <th class="px-3 text-sm text-left">RFID</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(student, index) of students">
-                                <td class="px-3 h-12 text-sm">{{ index + 1 }}</td>
-                                <td class="px-3 h-12 text-sm">{{ student.name }}</td>
-                                <td class="px-3 h-12 text-sm">{{ student.nis }}</td>
-                                <!-- <td class="px-3 h-12 text-sm" v-text="solveName(siswa)"></td> -->
-                                <td class="px-3 h-12 text-sm" v-text="student.rfid ? student.rfid : 'BELUM PUNYA'"></td>
+                                <td class="h-12 px-3 text-sm">{{ index + 1 }}</td>
+                                <td class="h-12 px-3 text-sm">{{ student.name }}</td>
+                                <td class="h-12 px-3 text-sm">{{ student.nis }}</td>
+                                <!-- <td class="h-12 px-3 text-sm" v-text="solveName(siswa)"></td> -->
+                                <td class="h-12 px-3 text-sm" v-text="student.rfid ? student?.Rfid.rfid : 'BELUM PUNYA'">
+                                </td>
                                 <td class="text-center">
                                     <button @click="studentStore.assignStudent($route.params.id, student.id)"
-                                        class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1">
+                                        class="px-4 py-2 mx-1 text-xs text-white bg-blue-400 rounded-lg">
                                         Assign Siswa
                                     </button>
                                 </td>
@@ -80,45 +81,41 @@ onBeforeMount( () => {
                     </table>
                 </div>
             </div>
-            <div class="bg-white p-8 rounded-md drop-shadow-md overflow-auto">
+            <div class="p-8 overflow-auto bg-white rounded-md drop-shadow-md">
                 <table class="w-[100%] min-w-[700px]">
                     <thead>
                         <tr class="h-10">
-                            <th class="text-left px-3">No</th>
-                            <th class="text-left px-3">Nama</th>
-                            <th class="text-left px-3">NIS</th>
-                            <th class="text-left px-3">RFID</th>
+                            <th class="px-3 text-left">No</th>
+                            <th class="px-3 text-left">Nama</th>
+                            <th class="px-3 text-left">NIS</th>
+                            <th class="px-3 text-left">RFID</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(student, index) of classDetail.ClassStudent">
                             <!-- <td>{{ student }}</td> -->
-                            <td class="px-3 h-12">{{ index + 1 }}</td>
-                            <td class="px-3 h-12">{{ student.Student.name }}</td>
-                            <td class="px-3 h-12">{{ student.Student.nis }}</td>
-                            <td class="px-3 h-12">
+                            <td class="h-12 px-3">{{ index + 1 }}</td>
+                            <td class="h-12 px-3">{{ student.Student.name }}</td>
+                            <td class="h-12 px-3">{{ student.Student.nis }}</td>
+                            <td class="h-12 px-3">
                                 <template v-if="student.Student.rfid">
-                                    {{ student.Student.rfid }}
+                                    {{ student.Student.Rfid.rfid }}
                                 </template>
                                 <template v-else>
                                     <RouterLink :to="{ name: 'siswa-rfid', params: { id: student.Student.id } }"
-                                        class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-1">
+                                        class="px-4 py-2 mx-1 mb-1 text-xs text-white bg-blue-400 rounded-lg">
                                         Assign RFID
                                     </RouterLink>
                                 </template>
                             </td>
                             <td class="flex flex-wrap justify-center">
                                 <button @click="classStore.removeStudent($route.params.id, student.Student.id)"
-                                    class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-1">
+                                    class="px-4 py-2 mx-1 mb-1 text-xs text-white bg-blue-400 rounded-lg">
                                     Keluarkan
                                 </button>
                                 <RouterLink to="/siswa/"
-                                    class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-1">
-                                    Hapus
-                                </RouterLink>
-                                <RouterLink to="/siswa/"
-                                    class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-1">
+                                    class="px-4 py-2 mx-1 mb-1 text-xs text-white bg-blue-400 rounded-lg">
                                     Lihat
                                     Detail
                                 </RouterLink>

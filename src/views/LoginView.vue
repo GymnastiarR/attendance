@@ -1,4 +1,3 @@
-
 <script>
 import axios from '../axiosConfiguration';
 import { setHeaderAxios } from '../axiosConfiguration';
@@ -17,7 +16,7 @@ export default {
                 .then( ( response ) => {
                     localStorage.setItem( "token", response.data.token );
                     setHeaderAxios();
-                    // axios.
+
                     this.$router.push( { name: "dashboard" } );
                 } )
                 .catch( ( error ) => {

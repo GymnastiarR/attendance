@@ -3,6 +3,7 @@ import { useLoadingStore } from "./loading";
 import axios from "../axiosConfiguration";
 import { useSuccessStore } from "./success";
 import { useErrorStore } from "./error";
+import { Call } from "../services/Calling";
 
 export const useShopStore = defineStore( 'shop', {
     state: () => ( {
@@ -10,7 +11,7 @@ export const useShopStore = defineStore( 'shop', {
             name: "",
             menus: []
         },
-
+        show: null,
         shops: []
     } ),
 
@@ -48,6 +49,99 @@ export const useShopStore = defineStore( 'shop', {
                 .finally( () => {
                     useLoadingStore().loading = false;
                 } );
+        },
+
+        get( canteenId ) {
+            Call.get( `/kantin/${canteenId}`, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+                this.show = response.data.data;
+            } );
+        },
+
+        updateName( menuId, data, canteenId ) {
+            return () => {
+                Call.put( `/kantin/${canteenId}/menus/${menuId}/name`, { name: data }, ( error, response ) => {
+                    if ( error ) {
+                        return;
+                    }
+
+                    useSuccessStore().setSuccess( response, () => {
+                        this.get( canteenId );
+                        // this.clear();
+                    } );
+                } );
+            };
+        },
+
+        updatePrice( menuId, data, canteenId ) {
+            return () => {
+                Call.put( `/kantin/${canteenId}/menus/${menuId}/price`, { price: data }, ( error, response ) => {
+                    if ( error ) {
+                        this.get( canteenId );
+                        return;
+                    }
+
+                    useSuccessStore().setSuccess( response, () => {
+                        this.get( canteenId );
+                    } );
+                } );
+            };
+        },
+
+        withdraw( canteenId ) {
+            Call.get( `/kantin/${canteenId}/withdrawal`, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+
+                useSuccessStore().setSuccess( response, () => {
+                    this.get( canteenId );
+                } );
+            } );
+        },
+
+        getHistory( canteenId ) {
+            return new Promise( ( resolve, reject ) => {
+                Call.get( `/kantin/${canteenId}/history`, ( error, response ) => {
+                    if ( error ) {
+                        resolve( [] );
+                        return;
+                    }
+                    resolve( response.data.data );
+                    // console.log( response.data.data );
+                    // return response.data.data;
+                } );
+            } );
+        },
+
+        destroyMenu( canteenId, menuId ) {
+            return () => {
+                Call.delete( `/kantin/${canteenId}/menus/${menuId}`, ( error, response ) => {
+                    if ( error ) {
+                        return;
+                    }
+
+                    useSuccessStore().setSuccess( response, () => {
+                        this.get( canteenId );
+                    } );
+                } );
+            };
+        },
+
+        destroyCanteen( canteenId ) {
+            return () => {
+                Call.delete( `/kantin/${canteenId}`, ( error, response ) => {
+                    if ( error ) {
+                        return;
+                    }
+
+                    useSuccessStore().setSuccess( response, () => {
+                        this.getAll();
+                    } );
+                } );
+            };
         }
     }
 } );

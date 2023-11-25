@@ -28,7 +28,6 @@ export const useSuccessStore = defineStore( 'success', {
 
         close() {
             this.clear();
-            // console.log( this.callBack );
             if ( this.callBack ) {
                 this.callBack();
             }

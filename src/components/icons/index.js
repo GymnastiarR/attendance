@@ -29,7 +29,9 @@ import IconCloseFill from './IconCloseFill.vue';
 import IconCard from './IconCard.vue';
 import IconStore from './IconStore.vue';
 import IconAddCircleFill from './IconAddCircleFill.vue';
+import IconSave from './IconSave.vue';
+import IconEdit from './IconEdit.vue';
 
 export {
-    IconAdd, IconArrowLeft, IconArrowRight, IconCallender, IconClose, IconCommunity, IconDashboard, IconDocumentation, IconDoor, IconEcosystem, IconError, IconGroup, IconHand, IconLink, IconMenu, IconMore, IconRaiseHand, IconReport, IconSpace, IconStudent, IconSupport, IconTooling, IconSchool, IconSuccess, IconSick, IconPerson, IconMail, IconCloseFill, IconCard, IconStore, IconAddCircleFill
+    IconAdd, IconArrowLeft, IconArrowRight, IconCallender, IconClose, IconCommunity, IconDashboard, IconDocumentation, IconDoor, IconEcosystem, IconError, IconGroup, IconHand, IconLink, IconMenu, IconMore, IconRaiseHand, IconReport, IconSpace, IconStudent, IconSupport, IconTooling, IconSchool, IconSuccess, IconSick, IconPerson, IconMail, IconCloseFill, IconCard, IconStore, IconAddCircleFill, IconSave, IconEdit
 };

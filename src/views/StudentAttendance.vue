@@ -1,5 +1,5 @@
 <script setup>
-import { IconArrowLeft, IconArrowRight, IconMail, IconPerson, IconSick, IconCloseFill, IconCard } from '../components/icons';
+import { IconArrowLeft, IconArrowRight, IconMail, IconPerson, IconSick, IconCloseFill, IconCard, IconEdit } from '../components/icons';
 import SideMenu from '../components/SideMenu.vue';
 import { RouterLink } from 'vue-router';
 import AppLayout from '../layouts/AppLayout.vue';
@@ -8,6 +8,7 @@ import { useStudentStore } from '../stores/student';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
+import UpdateStudentForm from '../components/UpdateStudentForm.vue';
 
 const API = import.meta.env.VITE_API;
 
@@ -18,6 +19,8 @@ const id = $route.value.params.id;
 const studentStore = useStudentStore();
 
 const { detailStudent } = storeToRefs( studentStore );
+
+const showUpdateForm = ref( false );
 
 onBeforeMount( () => {
     studentStore.getStudent( $route.value.params.id );
@@ -41,36 +44,46 @@ const presence = ( attendance, status ) => {
     <div class="flex">
         <SideMenu />
         <AppLayout>
-            <div class="bg-white p-8 rounded-md drop-shadow-md mb-2 overflow-auto flex">
+            <UpdateStudentForm v-model:show="showUpdateForm" :studentInformation="detailStudent" />
+            <div v-if="!showUpdateForm" class="relative flex p-8 mb-2 overflow-auto bg-white rounded-md drop-shadow-md">
+                <button @click="showUpdateForm = true" class="absolute top-4 right-4">
+                    <IconEdit />
+                </button>
                 <div>
-                    <h2 class=" font-semibold mb-4">Informasi Siswa</h2>
+                    <h2 class="mb-4 font-semibold ">Informasi Siswa</h2>
                     <table class="mb-3">
                         <tbody>
                             <tr>
                                 <td class="py-1">Nama</td>
-                                <td class="py-1 w-3 text-center">:</td>
+                                <td class="w-3 py-1 text-center">:</td>
                                 <td class="py-1">{{ detailStudent?.name }}</td>
                             </tr>
                             <tr>
                                 <td class="py-1">NIS</td>
-                                <td class="py-1 w-3 text-center">:</td>
+                                <td class="w-3 py-1 text-center">:</td>
                                 <td class="py-1">{{ detailStudent?.nis }}</td>
                             </tr>
                             <tr>
                                 <td class="py-1">Kelas</td>
-                                <td class="py-1 w-3 text-center">:</td>
+                                <td class="w-3 py-1 text-center">:</td>
                                 <td class="py-1">{{ solveNameClass(detailStudent?.ClassStudent) }}</td>
                             </tr>
                             <tr>
                                 <td class="py-1">RFID</td>
-                                <td class="py-1 w-3 text-center">:</td>
+                                <td class="w-3 py-1 text-center">:</td>
                                 <td class="py-1">{{ detailStudent.rfid ? detailStudent.Rfid.rfid : 'Belum Memiliki RFID' }}
+                                </td>
+                            </tr>
+                            <tr v-if="detailStudent.rfid">
+                                <td class="py-1">Saldo</td>
+                                <td class="w-3 py-1 text-center">:</td>
+                                <td class="py-1">Rp. {{ detailStudent?.Rfid?.balance }}
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="flex">
-                        <a class="bg-blue-500 mr-2 text-xs text-white py-2 rounded-md flex w-fit justify-center items-center px-4"
+                        <a class="flex items-center justify-center px-4 py-2 mr-2 text-xs text-white bg-blue-500 rounded-md w-fit"
                             :href="`${API}/siswa/${id}/presence/download`">
                             <span class="px-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"
@@ -84,8 +97,8 @@ const presence = ( attendance, status ) => {
                             </span>
                         </a>
                         <RouterLink :to="{ name: 'siswa-rfid', params: { id: detailStudent.id } }"
-                            class="bg-blue-500 mr-2 text-xs text-white py-2 rounded-md flex w-fit justify-center items-center px-4">
-                            <span class=" px-2">
+                            class="flex items-center justify-center px-4 py-2 mr-2 text-xs text-white bg-blue-500 rounded-md w-fit">
+                            <span class="px-2 ">
                                 <IconCard />
                             </span>
                             <span class="pr-3">
@@ -95,105 +108,105 @@ const presence = ( attendance, status ) => {
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-8 rounded-md drop-shadow-md mb-2 overflow-auto">
-                <p class="font-semibold mb-4">Ringkasan Presensi</p>
-                <div class="flex justify-between flex-wrap">
-                    <div class="bg-green-500 w-60 grow mx-2 h-40 rounded-md mb-2 flex items-center px-8">
+            <div class="p-8 mb-2 overflow-auto bg-white rounded-md drop-shadow-md">
+                <p class="mb-4 font-semibold">Ringkasan Presensi</p>
+                <div class="flex flex-wrap justify-between">
+                    <div class="flex items-center h-40 px-8 mx-2 mb-2 bg-green-500 rounded-md w-60 grow">
                         <IconPerson />
                         <div class="w-full">
-                            <p class="text-center text-white font-semibold text-xl mb-2">
+                            <p class="mb-2 text-xl font-semibold text-center text-white">
                                 {{ presence(detailStudent.attendance, 'Hadir').status }}
                             </p>
-                            <p class="text-center text-white text-3xl font-semibold">
+                            <p class="text-3xl font-semibold text-center text-white">
                                 {{ presence(detailStudent.attendance, 'Hadir')._count.status }}
                             </p>
                         </div>
                     </div>
-                    <div class="bg-blue-500 w-60 grow mx-2 h-40 rounded-md mb-2 flex items-center px-8">
+                    <div class="flex items-center h-40 px-8 mx-2 mb-2 bg-blue-500 rounded-md w-60 grow">
                         <IconSick />
                         <div class="w-full">
-                            <p class="text-center text-white font-semibold text-xl mb-2">
+                            <p class="mb-2 text-xl font-semibold text-center text-white">
                                 {{ presence(detailStudent.attendance, 'Sakit').status }}
                             </p>
-                            <p class="text-center text-white text-3xl font-semibold">
+                            <p class="text-3xl font-semibold text-center text-white">
                                 {{ presence(detailStudent.attendance, 'Sakit')._count.status }}
                             </p>
                         </div>
                     </div>
-                    <div class="bg-orange-500 w-60 grow mx-2 h-40 rounded-md mb-2 flex items-center px-8">
+                    <div class="flex items-center h-40 px-8 mx-2 mb-2 bg-orange-500 rounded-md w-60 grow">
                         <IconMail />
                         <div class="w-full">
-                            <p class="text-center text-white font-semibold text-xl mb-2">
+                            <p class="mb-2 text-xl font-semibold text-center text-white">
                                 {{ presence(detailStudent.attendance, 'Izin').status }}
                             </p>
-                            <p class="text-center text-white text-3xl font-semibold">
+                            <p class="text-3xl font-semibold text-center text-white">
                                 {{ presence(detailStudent.attendance, 'Izin')._count.status }}
                             </p>
                         </div>
                     </div>
-                    <div class="bg-red-500 w-60 grow mx-2 h-40 rounded-md mb-2 flex items-center px-8">
+                    <div class="flex items-center h-40 px-8 mx-2 mb-2 bg-red-500 rounded-md w-60 grow">
                         <IconCloseFill />
                         <div class="w-full">
-                            <p class="text-center text-white font-semibold text-xl mb-2">
+                            <p class="mb-2 text-xl font-semibold text-center text-white">
                                 {{ presence(detailStudent.attendance, 'Alpa').status }}
                             </p>
-                            <p class="text-center text-white text-3xl font-semibold">
+                            <p class="text-3xl font-semibold text-center text-white">
                                 {{ presence(detailStudent.attendance, 'Alpa')._count.status }}
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-8 rounded-md drop-shadow-md mb-2 overflow-auto">
-                <div class="border-b-2 pb-4 mb-3">
+            <div class="p-8 mb-2 overflow-auto bg-white rounded-md drop-shadow-md">
+                <div class="pb-4 mb-3 border-b-2">
                     <h1 class="font-semibold ">Presensi</h1>
                 </div>
                 <!-- <SearchForm @replace-listSiswa="(newListSiswa) => { listSiswa = newListSiswa }" /> -->
                 <table class="w-[100%] min-w-[840px]">
                     <thead>
                         <tr class="h-10">
-                            <th class="text-left px-3 text-sm">No</th>
-                            <th class="text-left px-3 text-sm">Tanggal</th>
-                            <th class="text-left px-3 text-sm">Status Kehadiran</th>
-                            <th class="text-left px-3 text-sm">Ubah Status</th>
+                            <th class="px-3 text-sm text-left">No</th>
+                            <th class="px-3 text-sm text-left">Tanggal</th>
+                            <th class="px-3 text-sm text-left">Status Kehadiran</th>
+                            <th class="px-3 text-sm text-left">Ubah Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(attendance, index) of detailStudent.AttendanceStudent">
-                            <td class="px-3 h-12 text-sm">{{ index + 1 }}</td>
-                            <td class="px-3 h-12 text-sm">{{ new
+                            <td class="h-12 px-3 text-sm">{{ index + 1 }}</td>
+                            <td class="h-12 px-3 text-sm">{{ new
                                 Date(attendance.Attendance.date).toLocaleDateString('id-ID', {
                                     weekday: 'long', day:
                                         "2-digit", "month": "long", year: "numeric"
                                 }) }}</td>
-                            <td class="px-3 h-12 text-sm">{{ attendance.status }}</td>
-                            <!-- <td class="px-3 h-12 text-sm">{{ attendance.status }}</td>
-                            <td class="px-3 h-12 text-sm">{{ student.nis }}</td>
+                            <td class="h-12 px-3 text-sm">{{ attendance.status }}</td>
+                            <!-- <td class="h-12 px-3 text-sm">{{ attendance.status }}</td>
+                            <td class="h-12 px-3 text-sm">{{ student.nis }}</td>
                             <td class="px-3 h-12 text-sm min-w-[100px]">{{ solveName(student) }}</td>
-                            <td class="px-3 h-12 text-sm" v-text="solveName(siswa)"></td>
+                            <td class="h-12 px-3 text-sm" v-text="solveName(siswa)"></td>
                             <td class="px-3 h-12 text-sm min-w-[150px]">
                                 <template v-if="student.rfid">
                                     {{ student.rfid }}
                                 </template>
                                 <template v-else>
                                     <RouterLink :to="{ name: 'siswa-rfid', params: { id: student.id } }"
-                                        class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-1">
+                                        class="px-4 py-2 mx-1 mb-1 text-xs text-white bg-blue-400 rounded-lg">
                                         Assign RFID
                                     </RouterLink>
                                 </template>
                             </td>
-                            <td class="flex flex-wrap lg:h-12 justify-center items-center">
+                            <td class="flex flex-wrap items-center justify-center lg:h-12">
                                 <RouterLink to="/siswa/"
-                                    class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-2">
+                                    class="px-4 py-2 mx-1 mb-2 text-xs text-white bg-blue-400 rounded-lg">
                                     Pindah Kelas
                                 </RouterLink>
                                 <RouterLink to="/siswa/"
-                                    class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-2">
+                                    class="px-4 py-2 mx-1 mb-2 text-xs text-white bg-blue-400 rounded-lg">
                                     Hapus
                                 </RouterLink>
                                 <RouterLink to="/siswa/"
-                                    class="bg-blue-400 px-4 py-2 text-white rounded-lg text-xs mx-1 mb-2">
+                                    class="px-4 py-2 mx-1 mb-2 text-xs text-white bg-blue-400 rounded-lg">
                                     Lihat
                                     Presensi
                                 </RouterLink>
@@ -203,7 +216,7 @@ const presence = ( attendance, status ) => {
                 </table>
             </div>
             <div class="flex justify-center">
-                <div class="px-4 bg-white drop-shadow-md rounded-md flex py-2">
+                <div class="flex px-4 py-2 bg-white rounded-md drop-shadow-md">
                     <div class="">
                         <IconArrowLeft />
                     </div>

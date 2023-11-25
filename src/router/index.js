@@ -107,6 +107,11 @@ const router = createRouter( {
       name: 'detail canteen',
       component: () => import( '../views/DetailShop.vue' )
     },
+    {
+      path: '/kantin/:id/history',
+      name: 'transaction history',
+      component: () => import( '../views/TransactionHistoryView.vue' )
+    }
   ]
 } );
 

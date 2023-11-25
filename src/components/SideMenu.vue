@@ -22,9 +22,9 @@ const showClasses = ref( false );
 <template>
     <!-- <Transition name="fade"> -->
     <aside :class="[isShow ? '' : 'hidden']"
-        class="w-full z-10 fixed top-0 bottom-0 xl:block xl:w-1/5 bg-white h-full py-4 px-12 xl:sticky text-xs">
-        <div class="mt-4 flex justify-between xl:hidden">
-            <h1 class="text-lg font-semibold text-black block">SMAN 103 Jakarta</h1>
+        class="fixed top-0 bottom-0 z-10 w-full h-full px-12 py-4 text-xs bg-white xl:block xl:w-1/5 xl:sticky">
+        <div class="flex justify-between mt-4 xl:hidden">
+            <h1 class="block text-lg font-semibold text-black">SMAN 103 Jakarta</h1>
             <button @click="() => {
                 isShow = false
                 console.log(isShow)
@@ -32,20 +32,15 @@ const showClasses = ref( false );
                 <IconClose />
             </button>
         </div>
+        <p>General</p>
         <ul>
-            <li class="my-4 flex items-center">
+            <li class="flex items-center my-4">
                 <span class="mr-3">
                     <IconDashboard />
                 </span>
                 <router-link @click="isShow = false" to="/dashboard">Dashboard</router-link>
             </li>
-            <li class="my-4 flex items-center">
-                <span class="mr-3">
-                    <IconStore />
-                </span>
-                <router-link @click="isShow = false" to="/kantin">Stand</router-link>
-            </li>
-            <li class="my-4 flex items-center">
+            <li class="flex items-center my-4">
                 <span class="mr-3">
                     <IconStudent />
                 </span>
@@ -71,44 +66,59 @@ const showClasses = ref( false );
                     </li>
                 </ul>
             </li>
-            <li class="my-4 flex items-center">
+            <!-- <li class="flex items-center my-4">
                 <span class="mr-3">
                     <IconDoor />
                 </span>
                 <router-link @click="isShow = false" to="/dashboard">Data Ruangan</router-link>
-            </li>
-            <li class="my-4 flex items-center">
-                <span class="mr-3">
-                    <IconRaiseHand />
-                </span>
-                <router-link @click="isShow = false" to="/presensi">Data Presensi</router-link>
-            </li>
-            <li class="my-4 flex items-center">
+            </li> -->
+            <li class="flex items-center my-4">
                 <span class="mr-3">
                     <IconSchool />
                 </span>
                 <router-link @click="isShow = false" to="/informasi-sekolah">Informasi Sekolah</router-link>
             </li>
-            <!-- <li class="my-4 flex items-center">
+            <!-- <li class="flex items-center my-4">
                 <span class="mr-3">
                     <IconReport />
                 </span>
                 <router-link @click="isShow = false" to="/dashboard">Data Laporan</router-link>
             </li> -->
-            <li class="my-4 flex items-center bg-blue-400 p-2 rounded-md -mx-2">
+            <li class="flex items-center my-4 rounded-md">
                 <span class="mr-3">
                     <IconCallender />
                 </span>
-                <router-link @click="isShow = false" to="/tahun-ajaran" class="font-semibold">Tahun Ajaran</router-link>
+                <router-link @click="isShow = false" to="/tahun-ajaran">Tahun Ajaran</router-link>
             </li>
         </ul>
-        <p class="font-semibold">Peralatan</p>
+        <p class="font-semibold">Presensi</p>
         <ul>
-            <li class="my-4 flex items-center">
+            <li class="flex items-center my-4">
+                <span class="mr-3">
+                    <IconStore />
+                </span>
+                <router-link @click="isShow = false" to="/kantin">Stand</router-link>
+            </li>
+            <li class="flex items-center my-4">
+                <span class="mr-3">
+                    <IconStore />
+                </span>
+                <router-link @click="isShow = false" to="/kantin">Alat</router-link>
+            </li>
+        </ul>
+        <p class="font-semibold">Kantin</p>
+        <ul>
+            <li class="flex items-center my-4">
+                <span class="mr-3">
+                    <IconRaiseHand />
+                </span>
+                <router-link @click="isShow = false" to="/presensi">Data Presensi</router-link>
+            </li>
+            <li class="flex items-center my-4">
                 <span class="mr-3">
                     <IconCallender />
                 </span>
-                <router-link to="/unit-presensi" class="font-semibold">Unit Presensi</router-link>
+                <router-link to="/unit-presensi">Alat</router-link>
             </li>
         </ul>
     </aside>
