@@ -2,7 +2,7 @@
 import SideMenu from '../components/SideMenu.vue';
 import AppLayout from '../layouts/AppLayout.vue';
 import { useShopStore } from '../stores/shop';
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
 import { useWarningStore } from '../stores/warning';
@@ -13,10 +13,19 @@ const shopStore = useShopStore();
 
 const { show } = storeToRefs( shopStore );
 
-const menu = ref( {
+const menu = reactive( {
     name: '',
     price: '',
 } );
+
+const showModal = ref( false );
+
+const handleNewMenu = () => {
+    shopStore.storeMenu( $route.value.params.id, menu );
+    menu.name = '';
+    menu.price = '';
+    showModal.value = false;
+};
 
 onBeforeMount( async () => {
     shopStore.get( $route.value.params.id );
@@ -86,14 +95,25 @@ onBeforeMount( async () => {
                     </tbody>
                 </table>
             </div>
-            <!-- <ModalForm title="Edit Menu">
-                <form action="">
-                    <TextInput label="Nama Menu" v-model:value="menu.name" name="menu-name" />
-                    <TextInput label="Harga" v-model:value="menu.price" name="menu-price" />
-                    <button>Close</button>
-                    <button @click.prevent="">Simpan Perubahan</button>
+            <div>
+                <button @click="showModal = true" class="px-4 py-2 text-white bg-blue-500 rounded-lg">Tambah Menu</button>
+            </div>
+            <div @click="showModal = false" v-show="showModal"
+                class="fixed inset-0 bg-black/25 flex justify-center items-center z-10">
+                <form class="bg-white w-1/3 rounded-lg px-10 py-8 min-w-[520px]">
+                    <h3 class="font-semibold mb-5">Menu Baru</h3>
+                    <div class="flex flex-col mb-3">
+                        <label for="" class="mb-2">Nama Menu</label>
+                        <input type="text" class="border-2 px-2 py-1" v-model="menu.name">
+                    </div>
+                    <div class="flex flex-col mb-3">
+                        <label for="" class="mb-2">Harga Menu</label>
+                        <input type="text" class="border-2 px-2 py-1" v-model="menu.price">
+                    </div>
+                    <button @click.prevent="handleNewMenu" class="bg-blue-700 text-white px-4 py-2 rounded-md">Simpan
+                        Menu</button>
                 </form>
-            </ModalForm> -->
+            </div>
         </AppLayout>
     </div>
 </template>

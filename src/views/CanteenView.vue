@@ -32,8 +32,7 @@ onBeforeMount( () => {
                         <tr class="h-10">
                             <th class="px-3 text-sm text-left">No</th>
                             <th class="px-3 text-sm text-left">Nama</th>
-                            <th class="px-3 text-sm text-left">Penyewa</th>
-                            <th class="px-3 text-sm text-left">Jumlah Produk</th>
+                            <th class="px-3 text-sm text-left">Jumlah Menu</th>
                             <th>Action</th>
                         </tr>
 
@@ -43,7 +42,6 @@ onBeforeMount( () => {
                             <td class="h-12 px-3 text-sm">{{ index + 1 }}</td>
                             <td class="h-12 px-3 text-sm">{{ shop.name }}</td>
                             <td class="h-12 px-3 text-sm">{{ shop._count.Menu }}</td>
-                            <td class="h-12 px-3 text-sm">Gymnastiar</td>
                             <td class="flex flex-wrap items-center justify-center lg:h-12">
                                 <RouterLink :to="{ name: 'detail canteen', params: { id: shop.id } }"
                                     class="px-4 py-2 mx-1 mb-1 text-xs text-white bg-blue-400 rounded-lg">

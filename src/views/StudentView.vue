@@ -12,6 +12,8 @@ import { storeToRefs } from 'pinia';
 import { useWarningStore } from '../stores/warning';
 import { useAcademicYearStore } from '../stores/academicYear';
 import SectionView from '../components/SectionView.vue';
+import DuplicateSection from '../components/pages/student/DuplicateSection.vue';
+import { Call } from '../services/Calling';
 
 const studentStore = useStudentStore();
 const classStore = useClassStore();
@@ -21,13 +23,14 @@ const academicYearStore = useAcademicYearStore();
 
 const { students } = storeToRefs( studentStore );
 const { academicYears } = storeToRefs( academicYearStore );
-const { classes } = storeToRefs( classStore );
+// const { classes } = storeToRefs( classStore );
+const classes = ref( [] );
 
 const selectedAcademicYear = ref( '' );
-const classesId = ref( [] );
 
 watch( selectedAcademicYear, ( newSelected, oldSelected ) => {
-    classStore.getClasses( `?tahunAjaran=${newSelected}` );
+
+    // classStore.getClasses( `?tahunAjaran=${newSelected}` );
 } );
 
 const solveName = ( clss ) => {
@@ -49,28 +52,7 @@ onBeforeMount( () => {
         <AppLayout>
             <CreateSiswa />
             <SectionView title="Duplikasi Siswa">
-                <form action="" class="w-full">
-                    <div class="flex flex-col mb-4">
-                        <label for="" class="mb-2">Pilih Tahun Ajaran</label>
-                        <select v-model="selectedAcademicYear" name="" id=""
-                            class="w-1/2 px-2 py-1 text-sm border-2 rounded-md focus:outline-blue-500">
-                            <option value="" disabled selected>Pilih Tahun Ajaran</option>
-                            <option v-for="academicYear in academicYears" :value="academicYear.id">{{ academicYear.year }}
-                                {{ academicYear.semester }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        {{ classesId }}
-                        <label for="" class="inline-block mb-2">Pilih Kelas</label>
-                        <div v-for="clss in classes" class="flex items-center justify-between w-1/4">
-                            <label for="">{{ clss.Year.name }} {{ clss.Major.name }} {{ clss.name }}</label>
-                            <input :id="clss.id" v-model="classesId" :value="clss.id" type="checkbox">
-                        </div>
-                    </div>
-                    <button @click.prevent="studentStore.duplicate()"
-                        class="px-4 py-2 text-white bg-blue-500 rounded-md">Duplikat</button>
-                </form>
+                <DuplicateSection />
             </SectionView>
             <div class="p-8 mb-2 overflow-auto bg-white rounded-md drop-shadow-md">
                 <div class="pb-4 mb-3 border-b-2">

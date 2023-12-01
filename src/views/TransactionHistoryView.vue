@@ -35,8 +35,14 @@ onBeforeMount( async () => {
                     <tbody>
                         <tr v-for="(history, index) of histories">
                             <td class="h-12 px-3 text-sm">{{ index + 1 }}</td>
-                            <td class="h-12 px-3 text-sm">{{ history.date }}</td>
-                            <td class="h-12 px-3 text-sm">{{ history.totalAmount }}</td>
+                            <td class="h-12 px-3 text-sm">{{ (new Date(history.date)).toLocaleDateString('id-ID', {
+                                weekday
+                                    : 'long', month: 'long', year: 'numeric', day: 'numeric', hour: 'numeric', minute:
+                                    'numeric'
+                            }) }}</td>
+                            <td class="h-12 px-3 text-sm">{{ Number(history.totalAmount).toLocaleString('id-ID', {
+                                style: 'currency', currency: 'IDR'
+                            }) }}</td>
                             <td class="h-12 px-3 text-sm">Gymnastiar</td>
                             <td class="flex flex-wrap items-center justify-center lg:h-12">
                                 Lihat Detail

@@ -94,20 +94,15 @@ export const useStudentStore = defineStore( 'student', {
             };
         },
 
-        duplicate( classesId ) {
-            useLoadingStore().loading = true;
-            axios.post( `/siswa/duplicate`, { classesId } )
-                .then( response => {
-                    useSuccessStore().setSuccess( response );
+        duplicate( studentsId ) {
+            Call.post( `/siswa/duplicate`, { studentsId }, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+                useSuccessStore().setSuccess( response, () => {
                     this.getUser();
-                } )
-                .catch( error => {
-                    useErrorStore().setError( error );
-                } )
-                .finally( () => {
-                    useLoadingStore().loading = false;
-
                 } );
+            } );
         }
     },
 } );

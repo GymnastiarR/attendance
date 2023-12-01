@@ -142,6 +142,17 @@ export const useShopStore = defineStore( 'shop', {
                     } );
                 } );
             };
+        },
+
+        storeMenu( canteenId, data ) {
+            Call.post( `/kantin/${canteenId}`, data, ( error, response ) => {
+                if ( error ) {
+                    return;
+                }
+                useSuccessStore().setSuccess( response, () => {
+                    this.get( canteenId );
+                } );
+            } );
         }
     }
 } );
