@@ -13,7 +13,6 @@ const { attendances, date, automationStatus } = storeToRefs( attendanceStore );
 
 const API = import.meta.env.VITE_API;
 
-
 onBeforeMount( async () => {
     attendanceStore.getAttendances();
     attendanceStore.getAttendanceAutomationStatus();

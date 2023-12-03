@@ -39,9 +39,8 @@ onBeforeMount( () => {
                         </button>
                     </div>
                     <div class="flex" v-else>
-                        {{ search }}
                         <input v-model="search" type="text" class="py-1 px-2 rounded-md border-2 mr-2">
-                        <button @click="studentStore.getUser(`?tanpa_kelas=true&search=${search}`)"
+                        <button @click="studentStore.getUser(`?search=${search}`)"
                             class="px-3 py-2 text-xs bg-blue-500 rounded-md text-white">Cari</button>
                     </div>
                 </div>
