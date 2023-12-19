@@ -8,8 +8,7 @@ import { Call } from "../services/Calling";
 export const useShopStore = defineStore( 'shop', {
     state: () => ( {
         shop: {
-            name: "",
-            menus: []
+            name: ""
         },
         show: null,
         shops: []

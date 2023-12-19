@@ -34,7 +34,7 @@ watch( selectedAcademicYear, ( newSelected, oldSelected ) => {
 } );
 
 const solveName = ( clss ) => {
-    if ( clss.length > 0 ) {
+    if ( clss?.length > 0 ) {
         return `${clss[ 0 ].Class.Year.name} ${clss[ 0 ].Class.Major.name} ${clss[ 0 ].Class.name}`;
     }
     return 'Belum Memiliki Kelas';

@@ -49,7 +49,7 @@ const presence = ( attendance, status ) => {
     <div class="flex min-h-screen">
         <SideMenu />
         <AppLayout>
-            <h2 class="font-semibold text-xl mb-4">
+            <h2 class="mb-4 text-xl font-semibold">
                 {{ classDetail?.Year?.name }} {{ classDetail?.Major?.name }} {{ classDetail.name }}
             </h2>
             <div class="p-8 mb-2 overflow-auto bg-white rounded-md drop-shadow-md">
@@ -153,20 +153,19 @@ const presence = ( attendance, status ) => {
                     </table>
                 </div>
             </div>
-            <div class="p-8 overflow-auto bg-white rounded-md drop-shadow-md mb-4">
-                <h3 class="font-semibold mb-2">Unduh Presensi Siswa</h3>
-                <div class="flex gap-4 mb-2">
-                    <div class="flex flex-col">
+            <div class="p-8 mb-4 overflow-auto bg-white rounded-md drop-shadow-md">
+                <h3 class="mb-2 font-semibold">Unduh Presensi Siswa</h3>
+                <div class="flex gap-4 mb-4">
+                    <div class="flex flex-col gap-2">
                         <label for="">Dari Tanggal</label>
-                        <input type="date" class="border-2 border-gray-700 px-3 py-1 rounded-md" v-model="dateStart">
-                        {{ dateStart }}
+                        <input type="date" class="px-3 py-1 border-2 border-gray-700 rounded-md" v-model="dateStart">
                     </div>
-                    <div class="flex flex-col">
+                    <div class="flex flex-col gap-2">
                         <label for="">Sampai Tanggal</label>
-                        <input type="date" class="border-2 border-gray-700 px-3 py-1 rounded-md" v-model="dateEnd">
+                        <input type="date" class="px-3 py-1 border-2 border-gray-700 rounded-md" v-model="dateEnd">
                     </div>
                 </div>
-                <a
+                <a class="px-4 py-2 text-white bg-blue-700 rounded-md"
                     :href="API + '/kelas/' + $route.params.id + '/download?dateStart=' + dateStart + '&dateEnd=' + dateEnd">Unduh</a>
             </div>
             <div class="p-8 overflow-auto bg-white rounded-md drop-shadow-md">
