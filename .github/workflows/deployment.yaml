@@ -26,6 +26,6 @@ jobs:
             sudo git pull origin master
             git status
             export NVM_DIR=~/.nvm
-            sudo source ~/.nvm/nvm.sh 
+            source ~/.nvm/nvm.sh 
             sudo npm install
             npm run build
